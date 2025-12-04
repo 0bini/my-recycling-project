@@ -1,0 +1,251 @@
+:root {
+    --bg-color: #f2f4f7;
+    --primary-blue: #5d87ff;
+    --tag-pink: #ffdbe6;
+    --tag-pink-text: #d6336c;
+    --tag-blue: #dbeeff;
+    --tag-blue-text: #228be6;
+    --tag-red: #ffc9c9;
+    --tag-red-text: #fa5252;
+    --text-dark: #333;
+    --text-gray: #868e96;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+body {
+    background-color: #e9ecef;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* 모바일 컨테이너 스타일 */
+.mobile-container {
+    width: 100%;
+    max-width: 400px;
+    background-color: var(--bg-color);
+    min-height: 100vh;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+/* 1. 상단 검색바 영역 */
+.header-search {
+    background: white;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.search-box {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.logo{
+    width: 26px;
+    height: 18px;
+}
+
+.search-box span {
+    color: var(--text-dark);
+    font-weight: 500;
+    width: 300px;
+}
+
+.search-box i {
+    color: var(--text-gray);
+}
+
+/* 공통 카드 스타일 */
+.card {
+    background: white;
+    margin: 15px;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+/* 2. 업로드 섹션 스타일 */
+.upload-section{
+    height: 300px;
+    gap: 15px;
+}
+.upload-header {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.earth{
+    width: 42px;
+    height: 42px;
+}
+.avatar-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #e3fafc;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
+.text-group h3 {
+    font-size: 15px;
+    margin-bottom: 4px;
+    color: var(--text-dark);
+}
+
+.text-group p {
+    font-size: 13px;
+    color: var(--text-gray);
+}
+
+.illustration-area {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 이미지 대신 이모지로 예시 표현 */
+.illustration-items {
+    font-size: 40px;
+    display: flex;
+    gap: 15px;
+}
+
+.illustration-items img {
+    max-width: 100%;     /* 이미지가 부모 요소(화면) 너비를 넘지 않도록 제한 */
+    height: auto;        /* 너비가 줄어들 때 높이도 비율에 맞춰 자동 조절 */
+    object-fit: contain; /* 이미지 비율을 유지하며 내용이 잘리지 않게 함 */
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 25px;
+    border: none;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+}
+
+.btn-outline {
+    background: white;
+    border: 1px solid #dee2e6;
+    color: var(--text-dark);
+}
+
+.btn-primary {
+    background: var(--primary-blue);
+    color: white;
+    box-shadow: 0 4px 6px rgba(93, 135, 255, 0.2);
+}
+
+/* 3. 지도 섹션 스타일 */
+.map-section h3 {
+    font-size: 15px;
+    color: var(--text-gray);
+    margin-bottom: 15px;
+}
+
+.map-placeholder {
+    width: 100%;
+    height: 180px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    position: relative;
+    background-image: url('https://via.placeholder.com/400x200/e9ecef/adb5bd?text=Map+Image'); 
+    background-size: cover;
+    background-position: center;
+}
+
+/* 지도 위 핀 아이콘 시뮬레이션 */
+.map-pin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--primary-blue);
+    font-size: 30px;
+}
+
+.location-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.pin-icon {
+    color: var(--primary-blue);
+    font-size: 20px;
+    margin-top: 2px;
+}
+
+.addr-text h4 {
+    font-size: 14px;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.addr-text p {
+    font-size: 13px;
+    color: var(--text-gray);
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+
+.info-item h5 {
+    display: flex;       
+    align-items: center; 
+    gap: 5px;           
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.tag {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.tag-pink { background: var(--tag-pink); color: var(--tag-pink-text); }
+.tag-blue { background: var(--tag-blue); color: var(--tag-blue-text); }
+.tag-red { background: var(--tag-red); color: var(--tag-red-text); }
