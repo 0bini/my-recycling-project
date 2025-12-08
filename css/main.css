@@ -81,7 +81,7 @@ body {
 
 /* 2. 업로드 섹션 스타일 */
 .upload-section{
-    height: 300px;
+    height: auto;
     gap: 15px;
 }
 .upload-header {
@@ -183,7 +183,6 @@ body {
     border-radius: 10px;
     margin-bottom: 15px;
     position: relative;
-    background-image: url('https://via.placeholder.com/400x200/e9ecef/adb5bd?text=Map+Image'); 
     background-size: cover;
     background-position: center;
 }
@@ -249,3 +248,69 @@ body {
 .tag-pink { background: var(--tag-pink); color: var(--tag-pink-text); }
 .tag-blue { background: var(--tag-blue); color: var(--tag-blue-text); }
 .tag-red { background: var(--tag-red); color: var(--tag-red-text); }
+
+/* --- [추가된 CSS] 로딩 애니메이션 및 결과 화면 --- */
+.loading-container {
+    text-align: center;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.earth-spinner {
+    font-size: 60px;
+    animation: bounce 2s infinite ease-in-out;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+.progress-bar {
+    width: 80%;
+    height: 8px;
+    background-color: #eee;
+    border-radius: 4px;
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: var(--primary-blue);
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+.result-container {
+    text-align: center;
+    width: 100%;
+}
+
+.result-title {
+    font-size: 20px;
+    color: var(--primary-blue);
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.result-desc {
+    font-size: 13px;
+    color: var(--text-dark);
+    background: #f1f3f5;
+    padding: 12px;
+    border-radius: 10px;
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+}
+
+.btn-full {
+    width: 100%;
+}

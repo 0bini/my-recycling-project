@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -19,27 +20,16 @@
             </div>
         </div>
 
-        <div class="card upload-section">
-            <div class="upload-header">
-                <div class="avatar-icon"><img src = "img\earth.png" class="earth"></div>
-                <div class="text-group">
-                    <h3>분리수거할 쓰레기 사진을 업로드 해주세요</h3>
-                    <p>분리수거 시 세척은 필수입니다!</p>
-                </div>
-            </div>
+        <input type="file" id="fileInput" accept="image/*" style="display: none;">
 
-            <div class="illustration-area">
-                <div class="illustration-items">
-                    <img src = "img\group.png">
-                </div>
-            </div>
-
-            <div class="btn-group">
-                <button class="btn btn-outline">히스토리</button>
-                <button class="btn btn-primary">사진/파일 업로드</button>
+        <!-- [필수 추가] id="uploadCard" 추가 (자바스크립트가 화면을 그릴 위치) -->
+        <div class="card upload-section" id="uploadCard">
+            <!-- 자바스크립트 로딩 전 잠깐 보이는 화면 -->
+            <div style="text-align:center; padding:50px; color:#888;">
+                로딩중...<br>
             </div>
         </div>
-
+        
         <div class="card map-section">
             <h3>주변 클린하우스를 찾아보세요</h3>
             
@@ -68,6 +58,6 @@
             </div>
         </div>
     </div>
-
+    <script src="js/main.js"></script>
 </body>
 </html>
