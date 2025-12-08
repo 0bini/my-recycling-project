@@ -7,6 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css\main.css">
+    
+    <!-- Kakao Map API -->
+    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=ff6a702c9f9b214063e669d5297d8046&libraries=services"></script>
 </head>
 <body>
 
@@ -40,10 +43,10 @@
             </div>
         </div>
 
-        <div class="card map-section">
+        <div class="card map-section" id="map-section">
             <h3>주변 클린하우스를 찾아보세요</h3>
             
-            <div class="map-placeholder">
+            <div class="map-placeholder" id="map-container">
                 <i class="fa-solid fa-location-dot map-pin"></i>
             </div>
 
@@ -68,6 +71,9 @@
             </div>
         </div>
     </div>
+
+    <!-- JavaScript 모듈 로드 -->
+    <script type="module" src="js/main.js"></script>
 
 </body>
 </html>
