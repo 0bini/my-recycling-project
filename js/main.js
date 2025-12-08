@@ -1,3 +1,6 @@
+
+import { initMap } from './map/map.js';
+
 // 전역 변수 미리 선언
 let uploadCard = null;
 let fileInput = null;
@@ -353,4 +356,8 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error("오류: HTML에 id='uploadCard'가 없습니다.");
     }
+    console.log("🚀 앱이 시작되었습니다.");
+
+    console.log("🗺️ Map 모듈 초기화...");
+    initMap();
 });

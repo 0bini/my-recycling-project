@@ -7,14 +7,17 @@
     <title>분리수거 UI 클론</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css\main.css">
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Kakao Map API -->
+    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=ff6a702c9f9b214063e669d5297d8046&libraries=services"></script>
 </head>
 <body>
 
     <div class="mobile-container">
         <div class="header-search">
             <div class="search-box">
-                <img src="img\daum.jpg" class="logo">
+                <img src="img/daum.jpg" class="logo">
                 <span>분리수거</span>
                 <i class="fa-solid fa-microphone"></i>
             </div>
@@ -29,11 +32,12 @@
                 로딩중...<br>
             </div>
         </div>
-        
-        <div class="card map-section">
+
+        <div class="card map-section" id="map-section">
+
             <h3>주변 클린하우스를 찾아보세요</h3>
             
-            <div class="map-placeholder">
+            <div class="map-placeholder" id="map-container">
                 <i class="fa-solid fa-location-dot map-pin"></i>
             </div>
 
@@ -58,6 +62,9 @@
             </div>
         </div>
     </div>
-    <script src="js/main.js"></script>
+
+
+    <script type="module" src="js/main.js"></script>
+
 </body>
 </html>
