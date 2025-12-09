@@ -294,6 +294,11 @@ function triggerFileUpload() {
     }
 }
 
+// ★★★ 전역 함수로 노출 (HTML onclick에서 사용하기 위해) ★★★
+window.triggerFileUpload = triggerFileUpload;
+window.renderInitialState = renderInitialState;
+window.startAnalysis = startAnalysis;
+
 function handleFileSelect(e) {
     const file = e.target.files[0];
     if (file) {
