@@ -20,6 +20,9 @@ export function initMap() {
     
     // 사용자 위치 가져오기
     getUserLocation();
+    
+    // 재활용품 안내 모달 초기화
+    initRecyclingModal();
 }
 
 /**
@@ -351,5 +354,59 @@ function getTypeColor(type) {
         'PET': 'tag-purple'          // 페트병: 보라색
     };
     return colors[type] || 'tag-blue'; // 기본값: 파란색
+}
+
+/**
+ * 재활용품 안내 모달 기능
+ */
+function initRecyclingModal() {
+    const helpBtn = document.getElementById('recycling-help-btn');
+    const modal = document.getElementById('recycling-modal');
+    const closeBtn = document.getElementById('modal-close-btn');
+
+    if (!helpBtn || !modal || !closeBtn) {
+        console.warn('⚠️ 모달 요소를 찾을 수 없습니다.');
+        return;
+    }
+
+    // 물음표 클릭 시 모달 열기
+    helpBtn.addEventListener('click', () => {
+        modal.classList.add('show');
+        updateModalHighlight();
+    });
+
+    // 닫기 버튼 클릭
+    closeBtn.addEventListener('click', () => {
+        modal.classList.remove('show');
+    });
+
+    // 모달 배경 클릭 시 닫기
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('show');
+        }
+    });
+
+    console.log('✅ 재활용품 안내 모달 초기화 완료');
+}
+
+/**
+ * 오늘 배출 가능한 항목 초록색 강조
+ */
+function updateModalHighlight() {
+    const todayTypes = getTodayAvailableTypes();
+    const cards = document.querySelectorAll('.recycling-card');
+
+    cards.forEach(card => {
+        const cardType = card.getAttribute('data-type');
+        
+        // 초기화: 모든 카드에서 available 클래스 제거
+        card.classList.remove('available');
+        
+        // 오늘 배출 가능한 항목이면 초록색 강조
+        if (todayTypes.includes(cardType)) {
+            card.classList.add('available');
+        }
+    });
 }
 
