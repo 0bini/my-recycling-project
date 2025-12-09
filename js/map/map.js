@@ -248,9 +248,9 @@ function updateCleanHouseInfo(house) {
         // 오늘 요일에 따라 배출 가능한 품목 표시 (클린하우스와 무관)
         const todayTypes = getTodayAvailableTypes();
         
-        todayTypes.forEach((type, index) => {
+        todayTypes.forEach((type) => {
             const tag = document.createElement('span');
-            tag.className = `tag ${index % 2 === 0 ? 'tag-blue' : 'tag-red'}`;
+            tag.className = `tag ${getTypeColor(type)}`;
             tag.textContent = getTypeLabel(type);
             availableTypesContainer.appendChild(tag);
         });
@@ -336,5 +336,20 @@ function getTypeLabel(type) {
         'ALL': '전체'
     };
     return labels[type] || type;
+}
+
+/**
+ * 재활용품 타입별 색상 클래스 반환
+ */
+function getTypeColor(type) {
+    const colors = {
+        'PLASTIC': 'tag-blue',      // 플라스틱: 파란색
+        'VINYL': 'tag-green',        // 비닐: 연두색
+        'GLASS': 'tag-orange',         // 병류: 청록색
+        'CAN': 'tag-red',            // 캔: 빨간색
+        'PAPER': 'tag-yellow',       // 종이: 노란색
+        'PET': 'tag-purple'          // 페트병: 보라색
+    };
+    return colors[type] || 'tag-blue'; // 기본값: 파란색
 }
 
