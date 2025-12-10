@@ -44,6 +44,7 @@ function injectStyles() {
             padding: 10px 8px; /* 좌우 여백을 조금 줄임 */
             border-radius: 12px;
             margin-bottom: 15px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             /* 스크롤 제거 */
             overflow: hidden; 
             white-space: nowrap;
@@ -65,7 +66,7 @@ function renderInitialState() {
             </div>
         </div>
 
-        <div class="illustration-area" style="height: 250px; display: flex; justify-content: center; align-items: center; border-radius: 20px; ;">
+        <div class="illustration-area" style="height: 250px; display: flex; justify-content: center; align-items: center; border-radius: 20px;">
             <div class="illustration-items">
                 <img src="img/group.png" style="width: 250px;" alt="Illustration">
             </div>
@@ -78,7 +79,7 @@ function renderInitialState() {
     `;
 }
 
-// --- 2. 게임 상태 (높이 통일 & 진화 바) ---
+// --- 2. 게임 상태 (두 번째 코드 기준: 높이 400px) ---
 function renderGameState() {
     if (!uploadCard) return;
 
@@ -114,12 +115,13 @@ function renderGameState() {
                     <h2 style="margin: 0 0 10px 0; color: #ff4444; font-size: 28px;">GAME OVER</h2>
                     <p style="margin: 0 0 20px 0;">최종 점수</p>
                     <h1 id="final-score-text" style="margin: 0 0 25px 0; font-size: 48px; color: #333;">0</h1>
+                    
                 </div>
             </div>
         </div>
 
         <div class="btn-group" style="margin-top:15px;">
-            <button class="white-btn" onclick="renderInitialState()">나가기</button>
+            <button class="white-btn" onclick="renderInitialState()">뒤로 가기</button>
             <button class="white-btn" onclick="restartGame()">다시 하기</button>
         </div>
     `;
@@ -204,7 +206,6 @@ function renderLoadingState() {
         "당신 덕분에 오늘의 제주가 더 따뜻해졌습니다."
     ];
 
-    // ★ [추가] 랜덤으로 하나 뽑기
     const randomMsg = messages[Math.floor(Math.random() * messages.length)];
     
     uploadCard.innerHTML = `
@@ -226,6 +227,7 @@ function renderLoadingState() {
             </div>
         </div>
     `;
+
     function initThreeJS() {
         const container = document.getElementById('canvas-container');
         if (!container) return;
@@ -233,27 +235,18 @@ function renderLoadingState() {
 
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
-        
-        // 카메라 거리 (3.2가 황금비율)
         camera.position.z = 2.5; 
 
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-        
-        // 렌더러 크기 설정
         renderer.setSize(130, 130);
         renderer.outputEncoding = THREE.sRGBEncoding;
-
-        // ★★★ 핵심 수정: 캔버스 스타일 강제 적용 ★★★
-        // main.css의 영향을 무시하고 컨테이너에 꽉 차게 만듭니다.
-        // display: block으로 설정하여 하단 미세 여백(ghost space)을 제거합니다.
         renderer.domElement.style.width = "100%";
         renderer.domElement.style.height = "100%";
-        renderer.domElement.style.display = "block"; // 이게 중요합니다!
-        renderer.domElement.style.outline = "none";  // 혹시 모를 테두리 제거
+        renderer.domElement.style.display = "block";
+        renderer.domElement.style.outline = "none"; 
 
         container.appendChild(renderer.domElement);
 
-        // 조명 설정
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
         scene.add(ambientLight);
         const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
@@ -263,15 +256,11 @@ function renderLoadingState() {
         const geometry = new THREE.SphereGeometry(1, 64, 64);
         const textureLoader = new THREE.TextureLoader();
 
-        // 이미지 로드
         textureLoader.load('./img/earth_final.png', function(texture) {
             texture.encoding = THREE.sRGBEncoding;
-
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
-
             texture.repeat.set(1.5, 1.5); 
-
             texture.offset.set(-0.3, -0.3);
 
             const material = new THREE.MeshPhongMaterial({ 
@@ -279,10 +268,8 @@ function renderLoadingState() {
                 shininess: 10,
             });
             const sphere = new THREE.Mesh(geometry, material);
-            
             sphere.rotation.y = 4.7; 
             sphere.rotation.x = 0.2; 
-
             scene.add(sphere);
 
             function animate() {
@@ -323,6 +310,7 @@ function renderResultState(resultData) {
     else if (typeName.includes('음식물')) iconPath = 'img/icon_food.png';
     else if (typeName.includes('비닐')) iconPath = 'img/icon_vinyl.png';
     else if (typeName.includes('스티로폼')) iconPath = 'img/icon_styrofoam.png';
+    
     const typeColor = {
         '플라스틱': '#00AAFF', '캔/고철류': '#E93232', '병류': '#E56B28', 
         '종이류': '#9A8620', '일반쓰레기': '#575757', '음식물': '#5050ED',
@@ -398,6 +386,7 @@ function mockAiAnalysis(imageData) {
     });
 }
 
+// 전역 함수 노출
 window.triggerFileUpload = triggerFileUpload;
 window.renderInitialState = renderInitialState;
 window.renderGameState = renderGameState;
@@ -406,7 +395,6 @@ window.restartGame = restartGame;
 
 // 초기화
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. 버튼 스타일 주입
     injectStyles();
 
     uploadCard = document.getElementById('uploadCard');
@@ -414,7 +402,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (fileInput) fileInput.addEventListener('change', handleFileSelect);
     if (uploadCard) renderInitialState();
     
-    // 2. 지도 초기화 (SyntaxError가 해결되어야 실행됨)
     console.log("🗺️ Map 모듈 초기화...");
     initMap();
 });
