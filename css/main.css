@@ -1,24 +1,18 @@
+/* =========================================
+   1. 기본 설정 및 변수 (두 번째 CSS 기준)
+   ========================================= */
 :root {
     --bg-color: #f2f4f7;
     --primary-blue: #5d87ff;
-    --tag-pink: #ffdbe6;
-    --tag-pink-text: #d6336c;
-    --tag-blue: #dbeeff;
-    --tag-blue-text: #228be6;
-    --tag-red: #ffc9c9;
-    --tag-red-text: #fa5252;
-    --tag-green: #d3f9d8;
-    --tag-green-text: #37b24d;
-    --tag-yellow: #fff3bf;
-    --tag-yellow-text: #f59f00;
-    --tag-purple: #e5dbff;
-    --tag-purple-text: #7950f2;
-    --tag-orange: #ffe8cc;
-    --tag-orange-text: #fd7e14;
-    --tag-gray: #e9ecef;
-    --tag-gray-text: #495057;
-    --tag-teal: #c3fae8;
-    --tag-teal-text: #12b886;
+    --tag-pink: #ffdbe6; --tag-pink-text: #d6336c;
+    --tag-blue: #dbeeff; --tag-blue-text: #228be6;
+    --tag-red: #ffc9c9; --tag-red-text: #fa5252;
+    --tag-green: #d3f9d8; --tag-green-text: #37b24d;
+    --tag-yellow: #fff3bf; --tag-yellow-text: #f59f00;
+    --tag-purple: #e5dbff; --tag-purple-text: #7950f2;
+    --tag-orange: #ffe8cc; --tag-orange-text: #fd7e14;
+    --tag-gray: #e9ecef; --tag-gray-text: #495057;
+    --tag-teal: #c3fae8; --tag-teal-text: #12b886;
     --text-dark: #333;
     --text-gray: #868e96;
 }
@@ -93,10 +87,27 @@ body {
 }
 
 /* 2. 업로드 섹션 스타일 */
-.upload-section{
-    height: auto;
+/* ★ 중요: 높이 통일을 위해 height를 고정하고 스크롤을 숨깁니다 */
+.upload-section {
+    height: 500px !important; 
+    min-height: 500px !important;
     gap: 15px;
+    
+    /* 내부 정렬 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    /* 박스 설정 */
+    box-sizing: border-box;
+    overflow: hidden; /* 내용 넘침 방지 */
 }
+
+/* 스크롤바 숨김 (깔끔하게) */
+.upload-section::-webkit-scrollbar {
+    display: none;
+}
+
 .upload-header {
     display: flex;
     gap: 10px;
@@ -110,7 +121,7 @@ body {
 .avatar-icon {
     width: 40px;
     height: 40px;
-    background-color: #e3fafc;
+    background-color: #e3fafc; /* 선택사항: 삭제 가능 */
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -119,7 +130,7 @@ body {
 }
 
 .text-group h3 {
-    font-size: 15px;
+    font-size: 14px; /* 두 번째 CSS 기준 */
     margin-bottom: 4px;
     color: var(--text-dark);
 }
@@ -130,7 +141,7 @@ body {
 }
 
 .illustration-area {
-    background-color: #f8f9fa;
+    background-color: #f8f9fa; /* 선택사항: 삭제 가능 */
     border-radius: 10px;
     height: 120px;
     display: flex;
@@ -141,7 +152,7 @@ body {
     overflow: hidden;
 }
 
-/* 이미지 대신 이모지로 예시 표현 */
+/* 이미지 스타일 */
 .illustration-items {
     font-size: 40px;
     display: flex;
@@ -149,9 +160,9 @@ body {
 }
 
 .illustration-items img {
-    max-width: 100%;     /* 이미지가 부모 요소(화면) 너비를 넘지 않도록 제한 */
-    height: auto;        /* 너비가 줄어들 때 높이도 비율에 맞춰 자동 조절 */
-    object-fit: contain; /* 이미지 비율을 유지하며 내용이 잘리지 않게 함 */
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
 }
 
 .btn-group {
@@ -200,7 +211,7 @@ body {
     background-position: center;
 }
 
-/* 지도 위 핀 아이콘 시뮬레이션 */
+/* 지도 위 핀 아이콘 */
 .map-pin {
     position: absolute;
     top: 50%;
@@ -220,7 +231,7 @@ body {
 .pin-icon {
     color: var(--primary-blue);
     font-size: 20px;
-    margin-top: 10px;
+    margin-top: 2px; /* 두 번째 CSS 기준 미세 조정 */
 }
 
 .addr-text h4 {
@@ -238,7 +249,6 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
-
 
 .info-item h5 {
     display: flex;       
@@ -268,7 +278,7 @@ body {
 .tag-gray { background: var(--tag-gray); color: var(--tag-gray-text); }
 .tag-teal { background: var(--tag-teal); color: var(--tag-teal-text); }
 
-/* --- [추가된 CSS] 로딩 애니메이션 및 결과 화면 --- */
+/* --- [필수 추가] 로딩 애니메이션 및 결과 화면 (두 번째 CSS에 없던 부분 복구) --- */
 .loading-container {
     text-align: center;
     padding: 20px 0;
@@ -284,11 +294,6 @@ body {
     animation: bounce 2s infinite ease-in-out;
     margin-bottom: 20px;
     display: inline-block;
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
 }
 
 .progress-bar {
@@ -334,7 +339,7 @@ body {
     width: 100%;
 }
 
-/* --- 재활용품 안내 모달 --- */
+/* --- [필수 추가] 재활용품 안내 모달 (게임/결과 화면용) --- */
 .modal {
     display: none;
     position: absolute;
@@ -474,6 +479,12 @@ body {
 .recycling-card.available p {
     color: #2b8a3e;
     font-weight: 600;
+}
+
+/* --- [필수 추가] 애니메이션 (Keyframes) --- */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
 }
 
 @keyframes fadeIn {
