@@ -2,11 +2,13 @@
 
 import { initMap } from './map/map.js';
 import { startGame, stopGame, RECYCLABLES } from './game.js';
+import { analyzeImage, testConnection } from './ai/api.js';  // ← AI API 추가
 
 // 전역 변수
 let uploadCard = null;
 let fileInput = null;
 let currentImageSrc = null;
+let currentImageFile = null;  // ← 업로드된 파일 저장용
 
 // ★ [디자인] 버튼 스타일 자동 주입 (CSS 파일 없이도 적용됨)
 function injectStyles() {
@@ -356,6 +358,7 @@ function handleFileSelect(e) {
             alert('이미지 파일만 업로드할 수 있습니다.');
             return;
         }
+        currentImageFile = file;  // ← 파일 저장 (API 전송용)
         const reader = new FileReader();
         reader.onload = function(e) {
             currentImageSrc = e.target.result;
@@ -366,7 +369,26 @@ function handleFileSelect(e) {
     e.target.value = ''; 
 }
 
-function startAnalysis() { renderLoadingState(); mockAiAnalysis(currentImageSrc).then((result) => { renderResultState(result); }); }
+async function startAnalysis() { 
+    // 업로드된 파일이 없으면 리턴
+    if (!currentImageFile) {
+        alert('먼저 이미지를 업로드해주세요!');
+        return;
+    }
+
+    renderLoadingState();
+    
+    try {
+        // 실제 백엔드 API 호출
+        const result = await analyzeImage(currentImageFile);
+        renderResultState(result);
+    } catch (error) {
+        console.error('❌ 분석 중 오류:', error);
+        // 오류 발생 시 Mock 데이터 사용 (개발용)
+        const mockResult = await mockAiAnalysis(currentImageSrc);
+        renderResultState(mockResult);
+    }
+}
 
 function mockAiAnalysis(imageData) { 
     return new Promise((resolve) => {
@@ -394,7 +416,7 @@ window.startAnalysis = startAnalysis;
 window.restartGame = restartGame;
 
 // 초기화
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     injectStyles();
 
     uploadCard = document.getElementById('uploadCard');
@@ -404,4 +426,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
     console.log("🗺️ Map 모듈 초기화...");
     initMap();
+
+    // 백엔드 서버 연결 테스트
+    console.log("🔌 백엔드 서버 연결 테스트 중...");
+    const isConnected = await testConnection();
+    if (isConnected) {
+        console.log("✅ 백엔드 서버와 연결되었습니다!");
+    } else {
+        console.warn("⚠️ 백엔드 서버에 연결할 수 없습니다. Mock 데이터를 사용합니다.");
+    }
 });
