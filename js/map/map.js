@@ -408,3 +408,4 @@ function updateModalHighlight() {
             card.classList.add('available');
         }
     });
+}
