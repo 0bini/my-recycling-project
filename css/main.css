@@ -502,3 +502,9 @@ body {
         opacity: 1;
     }
 }
+
+/* 신기록 달성 깜빡임 애니메이션 */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}

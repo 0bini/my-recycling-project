@@ -223,5 +223,19 @@ function setNextItem(imgElement) {
 function updateScore(score, scoreEl) {
     if (scoreEl) {
         scoreEl.innerText = score.toLocaleString();
+        
+        // 하이스코어 넘으면 강조
+        const highScore = getHighScore();
+        if (score > highScore) {
+            scoreEl.style.color = '#ff4444'; // 빨간색으로 강조
+        } else {
+            scoreEl.style.color = '#333'; // 기본 색상
+        }
     }
+}
+
+// localStorage에서 하이스코어 가져오기
+function getHighScore() {
+    const saved = localStorage.getItem('recyclingGameHighScore');
+    return saved ? parseInt(saved) : 0;
 }
