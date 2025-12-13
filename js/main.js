@@ -96,9 +96,15 @@ function renderGameState() {
 
     uploadCard.innerHTML = `
         <div class="game-header-bar" style="display: flex; justify-content: space-between; align-items: stretch; margin-bottom: 15px; gap: 10px; height: 50px;">
-            <div class="score-box" style="flex: 1; background: #fff; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; flex-direction: row; justify-content: center; align-items: center;">
-                <span style="font-size: 10px; color: #888; margin-bottom: 2px;">SCORE&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <span id="game-score" style="font-size: 20px; font-weight: 800; color: #333; line-height: 1;">0</span>
+            <div class="score-box" style="flex: 1; background: #fff; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5px;">
+                <div style="display: flex; align-items: center; gap: 5px;">
+                    <span style="font-size: 10px; color: #888;">SCORE</span>
+                    <span id="game-score" style="font-size: 20px; font-weight: 800; color: #333; line-height: 1;">0</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 5px; margin-top: 2px;">
+                    <span style="font-size: 9px; color: #aaa;">BEST</span>
+                    <span id="game-best-score" style="font-size: 14px; font-weight: 700; color: #ffd700; line-height: 1;">${getHighScore().toLocaleString()}</span>
+                </div>
             </div>
             
             <div class="next-box" style="flex: 1; background: #fff; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 8px;">
@@ -113,10 +119,15 @@ function renderGameState() {
 
         <div id="game-wrapper" style="width: 100%; height: 400px; background: #f0f2f5; border-radius: 16px; overflow: hidden; position: relative; touch-action: none;">
             <div id="game-over-modal" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; flex-direction: column; z-index: 20;">
-                <div style="background: white; padding: 30px; border-radius: 20px; text-align: center; width: 80%; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
-                    <h2 style="margin: 0 0 10px 0; color: #ff4444; font-size: 28px;">GAME OVER</h2>
-                    <p style="margin: 0 0 20px 0;">최종 점수</p>
-                    <h1 id="final-score-text" style="margin: 0 0 25px 0; font-size: 48px; color: #333;">0</h1>
+                <div style="background: white; padding: 20px 25px; border-radius: 20px; text-align: center; width: 75%; max-width: 280px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+                    <h2 style="margin: 0 0 5px 0; color: #ff4444; font-size: 24px;">GAME OVER</h2>
+                    <p id="new-record-text" style="display: none; margin: 0 0 5px 0; font-size: 13px; color: #ffd700; font-weight: 800; animation: blink 1s infinite;">🎉 신기록 달성! 🎉</p>
+                    <p style="margin: 5px 0 3px 0; font-size: 12px; color: #888;">최종 점수</p>
+                    <h1 id="final-score-text" style="margin: 0 0 8px 0; font-size: 36px; color: #333;">0</h1>
+                    <div style="background: #f8f9fa; padding: 8px; border-radius: 10px; margin-bottom: 15px;">
+                        <p style="margin: 0; font-size: 11px; color: #aaa;">최고 기록</p>
+                        <p id="high-score-text" style="margin: 3px 0 0 0; font-size: 20px; font-weight: 700; color: #ffd700;">0</p>
+                    </div>
                     
                 </div>
             </div>
@@ -151,13 +162,73 @@ function startNewGameLogic() {
 function showGameOverModal(score) {
     const modal = document.getElementById('game-over-modal');
     const scoreText = document.getElementById('final-score-text');
+    const highScoreText = document.getElementById('high-score-text');
+    const newRecordText = document.getElementById('new-record-text');
+    
     if (modal && scoreText) {
         scoreText.innerText = score.toLocaleString();
+        
+        // 하이스코어 처리
+        const highScore = getHighScore();
+        const isNewRecord = score > highScore;
+        
+        if (isNewRecord) {
+            setHighScore(score);
+            if (newRecordText) {
+                newRecordText.style.display = 'block';
+            }
+        } else {
+            if (newRecordText) {
+                newRecordText.style.display = 'none';
+            }
+        }
+        
+        if (highScoreText) {
+            highScoreText.innerText = getHighScore().toLocaleString();
+        }
+        
         modal.style.display = 'flex';
     }
 }
 
+// === localStorage 하이스코어 함수 ===
+function getHighScore() {
+    const saved = localStorage.getItem('recyclingGameHighScore');
+    return saved ? parseInt(saved) : 0;
+}
+
+function setHighScore(score) {
+    localStorage.setItem('recyclingGameHighScore', score.toString());
+}
+
 function restartGame() {
+    // 현재 점수를 먼저 저장
+    const scoreEl = document.getElementById('game-score');
+    if (scoreEl) {
+        const currentScore = parseInt(scoreEl.innerText.replace(/,/g, '')) || 0;
+        const highScore = getHighScore();
+        
+        console.log('📊 다시하기 클릭 - 현재:', currentScore, '/ 최고:', highScore);
+        
+        // 하이스코어 갱신
+        if (currentScore > highScore) {
+            setHighScore(currentScore);
+            console.log('🎉 하이스코어 갱신!', currentScore);
+        }
+        
+        // BEST 점수 화면 업데이트
+        const bestScoreEl = document.getElementById('game-best-score');
+        if (bestScoreEl) {
+            const newBest = getHighScore().toLocaleString();
+            bestScoreEl.innerText = newBest;
+            console.log('✅ BEST 화면 업데이트:', newBest);
+        } else {
+            console.warn('⚠️ game-best-score 요소를 찾을 수 없음');
+        }
+    } else {
+        console.warn('⚠️ game-score 요소를 찾을 수 없음');
+    }
+    
     stopGame();
     startNewGameLogic();
 }
