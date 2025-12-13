@@ -330,7 +330,7 @@ function getTodayAvailableTypes() {
  */
 function getTypeLabel(type) {
     const labels = {
-        'PET': '페트병',
+        'STYROFOAM': '스티로폼',
         'CAN': '캔/고철류',
         'PAPER': '종이',
         'GLASS': '병류',
@@ -348,10 +348,10 @@ function getTypeColor(type) {
     const colors = {
         'PLASTIC': 'tag-blue',      // 플라스틱: 파란색
         'VINYL': 'tag-green',        // 비닐: 연두색
-        'GLASS': 'tag-orange',         // 병류: 청록색
+        'GLASS': 'tag-orange',         // 병류: 주황색색
         'CAN': 'tag-red',            // 캔: 빨간색
         'PAPER': 'tag-yellow',       // 종이: 노란색
-        'PET': 'tag-purple'          // 페트병: 보라색
+        'STYROFOAM': 'tag-purple'          // 스티로폼: 보라색
     };
     return colors[type] || 'tag-blue'; // 기본값: 파란색
 }
