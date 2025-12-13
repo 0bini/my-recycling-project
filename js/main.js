@@ -118,13 +118,13 @@ function renderGameState() {
         </div>
 
         <div id="game-wrapper" style="width: 100%; height: 400px; background: #f0f2f5; border-radius: 16px; overflow: hidden; position: relative; touch-action: none;">
-            <div id="game-over-modal" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; flex-direction: column; z-index: 20;">
-                <div style="background: white; padding: 20px 25px; border-radius: 20px; text-align: center; width: 75%; max-width: 280px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+            <div id="game-over-modal" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; justify-content: center; align-items: center; flex-direction: column; z-index: 20;">
+                <div style="background: white; padding: 20px 25px; border-radius: 16px; text-align: center; width: 100%; height: 100%; box-shadow: none; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                     <h2 style="margin: 0 0 5px 0; color: #ff4444; font-size: 24px;">GAME OVER</h2>
                     <p id="new-record-text" style="display: none; margin: 0 0 5px 0; font-size: 13px; color: #ffd700; font-weight: 800; animation: blink 1s infinite;">🎉 신기록 달성! 🎉</p>
                     <p style="margin: 5px 0 3px 0; font-size: 12px; color: #888;">최종 점수</p>
                     <h1 id="final-score-text" style="margin: 0 0 8px 0; font-size: 36px; color: #333;">0</h1>
-                    <div style="background: #f8f9fa; padding: 8px; border-radius: 10px; margin-bottom: 15px;">
+                    <div style="background: #f8f9fa; padding: 8px; border-radius: 10px; margin-bottom: 15px; width: 70%;">
                         <p style="margin: 0; font-size: 11px; color: #aaa;">최고 기록</p>
                         <p id="high-score-text" style="margin: 3px 0 0 0; font-size: 20px; font-weight: 700; color: #ffd700;">0</p>
                     </div>

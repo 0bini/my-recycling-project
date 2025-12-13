@@ -35,14 +35,12 @@ export async function analyzeImage(imageFile) {
 
         // 백엔드 응답을 프론트엔드 형식으로 변환
         const categoryMap = {
-            'PET': '플라스틱 (PET)',
             'Plastic': '플라스틱',
             'Can': '캔/고철류',
             'Glass': '병류',
             'Paper': '종이류',
             'Vinyl': '비닐류',
             'Styrofoam': '스티로폼',
-            'Battery': '전지류'
         };
 
         const category = categoryMap[result.category] || result.category;
