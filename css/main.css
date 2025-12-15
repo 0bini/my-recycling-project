@@ -121,7 +121,6 @@ body {
 .avatar-icon {
     width: 40px;
     height: 40px;
-    background-color: #e3fafc; /* 선택사항: 삭제 가능 */
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -191,6 +190,42 @@ body {
     background: var(--primary-blue);
     color: white;
     box-shadow: 0 4px 6px rgba(93, 135, 255, 0.2);
+}
+
+.white-btn {
+    background-color: white;
+    color: #000000;
+    border: 1px solid #000000;
+    padding: 12px 0;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+}
+
+.white-btn:hover {
+    background-color: #6485EE;
+    border: 1px solid #ffffff;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(77, 171, 247, 0.3);
+}
+
+.evolution-bar {
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between;
+    background: #fff; 
+    padding: 10px 8px;
+    border-radius: 12px;
+    margin-bottom: 15px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    overflow: hidden; 
+    white-space: nowrap;
 }
 
 /* 3. 지도 섹션 스타일 */
@@ -350,6 +385,7 @@ body {
     height: 100%;
     background-color: transparent;
     animation: fadeIn 0.3s ease;
+    border-radius: 7px;
 }
 
 .modal.show {
@@ -361,7 +397,8 @@ body {
 
 .modal-content {
     background-color: white;
-    border-radius: 15px;
+    border-radius: 7px;
+    overflow: hidden; /*자식 요소가 부모의 둥근 모서리를 벗어나지 못하게 잘라냄?*/
     width: calc(100% - 30px);
     max-width: 370px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
@@ -370,7 +407,6 @@ body {
 
 .modal-header {
     padding: 8px 12px;
-    border-bottom: 1px solid #e9ecef;
     position: relative;
 }
 
@@ -507,4 +543,92 @@ body {
 @keyframes blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.3; }
+}
+
+body {
+    background-color: white;
+    color: black;
+}
+
+@media (prefers-color-scheme: dark) {
+    /* 1. 화면 전체 배경 (이미 검정으로 하신 부분) */
+    .mobile-container {
+        background-color: #000000;
+    }
+    .header-search {
+        background-color: #000000; /* 상단 검색바 배경 어둡게 */
+        border-bottom: 1px solid #333333;
+    }
+    .illustration-area{
+        background-color: #4E4E4E;
+    }
+    .container, .wrap, .main-content {
+        background-color: #1C1E21;
+        border-bottom: 1px solid #C8C9CA;
+        color: #ffffff;      
+        box-shadow: none;    
+    }
+    .text-group h3, .text-group p {
+        color: #ffffff;
+    }
+    .loadingtext {
+        color: #ffffff;
+    }
+    .white-btn{
+        background-color: #1C1E21; /* 흰색 버튼 대신 어두운 회색 */
+        color: #ffffff;
+        border: 1px solid #C8C9CA;
+    }
+    /* 3. 상단 검색창/헤더 영역 */
+    .header, input[type="text"] {
+        background-color: #333333; /* 입력창은 배경보다 조금 더 밝게 */
+        color: #ffffff;
+        border: 1px solid #555555;
+    }
+
+    button.outline, .btn-secondary {
+        background-color: transparent;
+        border: 1px solid #666;
+        color: #ffffff;
+    }
+
+    button.primary, .btn-primary {
+        background-color: #5c9aff; 
+        border: 1px, solid #ffffff;
+        color: white;
+    }
+    .speech-bubble {
+        background-color: #3F4144;
+        color: #ffffff;
+        border: 1px solid #555555;
+    }
+    /* 5. 하단 정보 박스 (지도 아래 설명 부분) */
+    .info-section, .card {
+        background-color: #212121;
+        color: #eeeeee;
+    }
+    
+    /* 6. 지도 아래 작은 글씨들 */
+    p, span {
+        color: #cccccc; /* 너무 쨍한 흰색보다 살짝 회색이 눈이 편함 */
+    }
+    .modal-header, .modal-body, .score-box, .next-box, .evolution-bar {
+        background-color: #37383A;
+    }
+    .map-section h3, .modal-header h3, .location-info h4, p, .info-item h5{
+        color: #ffffff;
+    }
+    .recycling-card {
+        background-color: #37383A;
+        border: 1px solid #C8C9CA;
+    }
+    .score, .game-score{
+        color: #ffffff !important;
+    }
+    .canvas, .game-over-modal, .game-over-page{
+        background-color: #37383A !important;
+    }
+    #game-wrapper {
+        background-color: #37383A !important;
+    }
 }
