@@ -10,51 +10,6 @@ let fileInput = null;
 let currentImageSrc = null;
 let currentImageFile = null;  // ← 업로드된 파일 저장용
 
-// ★ [디자인] 버튼 스타일 자동 주입 (CSS 파일 없이도 적용됨)
-function injectStyles() {
-    const style = document.createElement('style');
-    style.innerHTML = `
-        /* 공통 버튼 스타일 (기본: 흰색) */
-        .white-btn {
-            background-color: white !important;
-            color: #000000 !important;
-            border: 1px solid #000000 !important;
-            padding: 12px 0;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.2s ease;
-            box-sizing: border-box;
-            margin-bottom: 8px; /* 버튼 사이 간격 */
-        }
-        /* 마우스 올렸을 때 (Hover: 파란색) */
-        .white-btn:hover {
-            background-color: #6485EE !important;
-            border: 1px solid #6485EE !important;
-            color: white !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(77, 171, 247, 0.3);
-        }
-        /* 진화 바 스타일 */
-        .evolution-bar {
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; /* 양쪽 끝으로 균등 배치 */
-            background: #fff; 
-            padding: 10px 8px; /* 좌우 여백을 조금 줄임 */
-            border-radius: 12px;
-            margin-bottom: 15px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            /* 스크롤 제거 */
-            overflow: hidden; 
-            white-space: nowrap;
-        }
-    `;
-    document.head.appendChild(style);
-}
-
 // --- 1. 초기 상태 ---
 function renderInitialState() {
     stopGame(); 
@@ -96,19 +51,19 @@ function renderGameState() {
 
     uploadCard.innerHTML = `
         <div class="game-header-bar" style="display: flex; justify-content: space-between; align-items: stretch; margin-bottom: 15px; gap: 10px; height: 50px;">
-            <div class="score-box" style="flex: 1; background: #fff; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5px;">
+            <div class="score-box" style="flex: 1; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5px;">
                 <div style="display: flex; align-items: center; gap: 5px;">
-                    <span style="font-size: 10px; color: #888;">SCORE</span>
-                    <span id="game-score" style="font-size: 20px; font-weight: 800; color: #333; line-height: 1;">0</span>
+                    <span class="score", style="font-size: 10px; ">SCORE</span>
+                    <span class="game-score", id="game-score" style="font-size: 20px; font-weight: 800; line-height: 1;">0</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 5px; margin-top: 2px;">
-                    <span style="font-size: 9px; color: #aaa;">BEST</span>
+                    <span style="font-size: 9px; ">BEST</span>
                     <span id="game-best-score" style="font-size: 14px; font-weight: 700; color: #ffd700; line-height: 1;">${getHighScore().toLocaleString()}</span>
                 </div>
             </div>
             
-            <div class="next-box" style="flex: 1; background: #fff; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 8px;">
-                <span style="font-size: 11px; color: #888;">NEXT</span>
+            <div class="next-box" style="flex: 1; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 8px;">
+                <span style="font-size: 11px;">NEXT</span>
                 <img id="next-item-img" src="" style="width: 32px; height: 32px; object-fit: contain;">
             </div>
         </div>
@@ -119,12 +74,12 @@ function renderGameState() {
 
         <div id="game-wrapper" style="width: 100%; height: 400px; background: #f0f2f5; border-radius: 16px; overflow: hidden; position: relative; touch-action: none;">
             <div id="game-over-modal" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; justify-content: center; align-items: center; flex-direction: column; z-index: 20; border-radius: 16px;">
-                <div style="background: white; padding: 20px 25px; border-radius: 16px; text-align: center; width: 96%; height: 96%; margin: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.15); display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <div class="game-over-page", style="background: white; padding: 20px 25px; border-radius: 16px; text-align: center; width: 96%; height: 96%; margin: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.15); display: flex; flex-direction: column; justify-content: center; align-items: center;">
                     <h2 style="margin: 0 0 5px 0; color: #ff4444; font-size: 24px;">GAME OVER</h2>
                     <p id="new-record-text" style="display: none; margin: 0 0 5px 0; font-size: 13px; color: #ffd700; font-weight: 800; animation: blink 1s infinite;">🎉 신기록 달성! 🎉</p>
                     <p style="margin: 5px 0 3px 0; font-size: 12px; color: #888;">최종 점수</p>
                     <h1 id="final-score-text" style="margin: 0 0 8px 0; font-size: 36px; color: #333;">0</h1>
-                    <div style="background: #f8f9fa; padding: 8px; border-radius: 10px; margin-bottom: 15px; width: 70%; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                    <div style="padding: 8px; border-radius: 10px; margin-bottom: 15px; width: 70%; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
                         <p style="margin: 0; font-size: 11px; color: #aaa;">최고 기록</p>
                         <p id="high-score-text" style="margin: 3px 0 0 0; font-size: 20px; font-weight: 700; color: #ffd700;">0</p>
                     </div>
@@ -292,8 +247,8 @@ function renderLoadingState() {
 
         <div class="loading-container" style="display: flex; flex-direction: row !important; flex-wrap: nowrap; align-items: center; justify-content: center; height: 380px; padding: 30px 10px; gap: 15px;">
             <div id="canvas-container" style="flex: 0 0 130px; width: 130px; height: 130px; border-radius: 20px;"></div>
-            <div class="speech-bubble" style="flex: 1; min-width: 0; position: relative; background: white; padding: 20px 15px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #f1f3f5;">
-                <h4 id="loadingText" style="margin: 0 0 12px 0; font-size: 14px; color: #333; font-weight: 700;"></h4>
+            <div class="speech-bubble" style="flex: 1; min-width: 0; position: relative; padding: 20px 15px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                <h4 id="loadingText" style="margin: 0 0 12px 0; font-size: 14px; font-weight: 700;"></h4>
                 <div style="width: 100%; height: 12px; background: #e9ecef; border-radius: 6px; overflow: hidden;">
                     <div id="progressBar" style="width: 0%; height: 100%; background: #74c98a; border-radius: 6px; transition: width 0.1s linear;"></div>
                 </div>
@@ -488,7 +443,6 @@ window.restartGame = restartGame;
 
 // 초기화
 document.addEventListener('DOMContentLoaded', async () => {
-    injectStyles();
 
     uploadCard = document.getElementById('uploadCard');
     fileInput = document.getElementById('fileInput');
