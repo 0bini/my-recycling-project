@@ -10,51 +10,6 @@ let fileInput = null;
 let currentImageSrc = null;
 let currentImageFile = null;  // ← 업로드된 파일 저장용
 
-// ★ [디자인] 버튼 스타일 자동 주입 (CSS 파일 없이도 적용됨)
-function injectStyles() {
-    const style = document.createElement('style');
-    style.innerHTML = `
-        /* 공통 버튼 스타일 (기본: 흰색) */
-        .white-btn {
-            background-color: white !important;
-            color: #000000 !important;
-            border: 1px solid #000000 !important;
-            padding: 12px 0;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.2s ease;
-            box-sizing: border-box;
-            margin-bottom: 8px; /* 버튼 사이 간격 */
-        }
-        /* 마우스 올렸을 때 (Hover: 파란색) */
-        .white-btn:hover {
-            background-color: #6485EE !important;
-            border: 1px solid #6485EE !important;
-            color: white !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(77, 171, 247, 0.3);
-        }
-        /* 진화 바 스타일 */
-        .evolution-bar {
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; /* 양쪽 끝으로 균등 배치 */
-            background: #fff; 
-            padding: 10px 8px; /* 좌우 여백을 조금 줄임 */
-            border-radius: 12px;
-            margin-bottom: 15px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            /* 스크롤 제거 */
-            overflow: hidden; 
-            white-space: nowrap;
-        }
-    `;
-    document.head.appendChild(style);
-}
-
 // --- 1. 초기 상태 ---
 function renderInitialState() {
     stopGame(); 
@@ -96,19 +51,19 @@ function renderGameState() {
 
     uploadCard.innerHTML = `
         <div class="game-header-bar" style="display: flex; justify-content: space-between; align-items: stretch; margin-bottom: 15px; gap: 10px; height: 50px;">
-            <div class="score-box" style="flex: 1; background: #fff; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5px;">
+            <div class="score-box" style="flex: 1; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 5px;">
                 <div style="display: flex; align-items: center; gap: 5px;">
-                    <span style="font-size: 10px; color: #888;">SCORE</span>
-                    <span id="game-score" style="font-size: 20px; font-weight: 800; color: #333; line-height: 1;">0</span>
+                    <span class="score", style="font-size: 10px; ">SCORE</span>
+                    <span class="game-score", id="game-score" style="font-size: 20px; font-weight: 800; line-height: 1;">0</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 5px; margin-top: 2px;">
-                    <span style="font-size: 9px; color: #aaa;">BEST</span>
+                    <span style="font-size: 9px; ">BEST</span>
                     <span id="game-best-score" style="font-size: 14px; font-weight: 700; color: #ffd700; line-height: 1;">${getHighScore().toLocaleString()}</span>
                 </div>
             </div>
             
-            <div class="next-box" style="flex: 1; background: #fff; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 8px;">
-                <span style="font-size: 11px; color: #888;">NEXT</span>
+            <div class="next-box" style="flex: 1; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 8px;">
+                <span style="font-size: 11px;">NEXT</span>
                 <img id="next-item-img" src="" style="width: 32px; height: 32px; object-fit: contain;">
             </div>
         </div>
@@ -119,12 +74,12 @@ function renderGameState() {
 
         <div id="game-wrapper" style="width: 100%; height: 400px; background: #f0f2f5; border-radius: 16px; overflow: hidden; position: relative; touch-action: none;">
             <div id="game-over-modal" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; justify-content: center; align-items: center; flex-direction: column; z-index: 20; border-radius: 16px;">
-                <div style="background: white; padding: 20px 25px; border-radius: 16px; text-align: center; width: 96%; height: 96%; margin: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.15); display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <div class="game-over-page", style="background: white; padding: 20px 25px; border-radius: 16px; text-align: center; width: 96%; height: 96%; margin: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.15); display: flex; flex-direction: column; justify-content: center; align-items: center;">
                     <h2 style="margin: 0 0 5px 0; color: #ff4444; font-size: 24px;">GAME OVER</h2>
                     <p id="new-record-text" style="display: none; margin: 0 0 5px 0; font-size: 13px; color: #ffd700; font-weight: 800; animation: blink 1s infinite;">🎉 신기록 달성! 🎉</p>
                     <p style="margin: 5px 0 3px 0; font-size: 12px; color: #888;">최종 점수</p>
                     <h1 id="final-score-text" style="margin: 0 0 8px 0; font-size: 36px; color: #333;">0</h1>
-                    <div style="background: #f8f9fa; padding: 8px; border-radius: 10px; margin-bottom: 15px; width: 70%; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                    <div style="padding: 8px; border-radius: 10px; margin-bottom: 15px; width: 70%; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
                         <p style="margin: 0; font-size: 11px; color: #aaa;">최고 기록</p>
                         <p id="high-score-text" style="margin: 3px 0 0 0; font-size: 20px; font-weight: 700; color: #ffd700;">0</p>
                     </div>
@@ -292,8 +247,8 @@ function renderLoadingState() {
 
         <div class="loading-container" style="display: flex; flex-direction: row !important; flex-wrap: nowrap; align-items: center; justify-content: center; height: 380px; padding: 30px 10px; gap: 15px;">
             <div id="canvas-container" style="flex: 0 0 130px; width: 130px; height: 130px; border-radius: 20px;"></div>
-            <div class="speech-bubble" style="flex: 1; min-width: 0; position: relative; background: white; padding: 20px 15px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #f1f3f5;">
-                <h4 id="loadingText" style="margin: 0 0 12px 0; font-size: 14px; color: #333; font-weight: 700;"></h4>
+            <div class="speech-bubble" style="flex: 1; min-width: 0; position: relative; padding: 20px 15px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                <h4 id="loadingText" style="margin: 0 0 12px 0; font-size: 14px; font-weight: 700;"></h4>
                 <div style="width: 100%; height: 12px; background: #e9ecef; border-radius: 6px; overflow: hidden;">
                     <div id="progressBar" style="width: 0%; height: 100%; background: #74c98a; border-radius: 6px; transition: width 0.1s linear;"></div>
                 </div>
@@ -379,7 +334,7 @@ function renderResultState(resultData) {
     else if (typeName.includes('캔')) iconPath = 'img/icon_can.png';
     else if (typeName.includes('종이')) iconPath = 'img/icon_paper.png';
     else if (typeName.includes('병')) iconPath = 'img/icon_glass.png';
-    else if (typeName.includes('일반')) iconPath = 'img/icon_trash.png';
+    else if (typeName.includes('일반 쓰레기')) iconPath = 'img/icon_trash.png';
     else if (typeName.includes('음식물')) iconPath = 'img/icon_food.png';
     else if (typeName.includes('비닐')) iconPath = 'img/icon_vinyl.png';
     else if (typeName.includes('스티로폼')) iconPath = 'img/icon_styrofoam.png';
@@ -424,38 +379,78 @@ function renderResultState(resultData) {
 function triggerFileUpload() { if (fileInput) fileInput.click(); }
 function handleFileSelect(e) { 
     const file = e.target.files[0];
-    if (file) {
-        if (!file.type.startsWith('image/')) {
-            alert('이미지 파일만 업로드할 수 있습니다.');
-            return;
-        }
-        currentImageFile = file;  // ← 파일 저장 (API 전송용)
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            currentImageSrc = e.target.result;
-            renderPreviewState(currentImageSrc);
-        }
-        reader.readAsDataURL(file);
+
+    if (!file) return;
+
+    // --- [추가] 1. 파일 크기 검사 (10MB) ---
+    const MAX_SIZE = 10 * 1024 * 1024; // 10MB
+    if (file.size > MAX_SIZE) {
+        alert(`❌ 파일 크기가 너무 큽니다! (10MB 이하만 가능)\n현재 크기: ${(file.size / 1024 / 1024).toFixed(2)}MB`);
+        e.target.value = ''; // 입력 초기화 (선택 취소)
+        return;
     }
+
+    // --- [추가] 2. 파일 형식 검사 (MIME Type) ---
+    // 백엔드 기준: ["image/jpeg", "image/png", "image/jpg", "image/webp"]
+    // (브라우저는 보통 .jpg도 'image/jpeg'로 인식하지만, 안전하게 목록에 다 넣었습니다)
+    const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
+    
+    if (!ALLOWED_TYPES.includes(file.type)) {
+        alert('❌ 지원하지 않는 파일 형식입니다.\n(JPG, PNG, WEBP 형식만 업로드 가능합니다)');
+        e.target.value = ''; // 입력 초기화
+        return;
+    }
+
+    // --- 3. 유효성 검사 통과 시 처리 ---
+    currentImageFile = file; // 파일 저장 (API 전송용)
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        currentImageSrc = e.target.result;
+        renderPreviewState(currentImageSrc); // 미리보기 화면으로 이동
+    }
+    reader.readAsDataURL(file);
+
+    // 입력값 초기화 (같은 파일을 다시 선택해도 이벤트가 발생하도록)
     e.target.value = ''; 
 }
 
 async function startAnalysis() { 
-    // 업로드된 파일이 없으면 리턴
+    // 1. 업로드된 파일이 없으면 리턴
     if (!currentImageFile) {
         alert('먼저 이미지를 업로드해주세요!');
         return;
     }
 
+    // 2. 로딩 화면 시작 (프로그래스바 애니메이션이 약 2.5초 동안 실행됨)
     renderLoadingState();
     
     try {
-        // 실제 백엔드 API 호출
-        const result = await analyzeImage(currentImageFile);
-        renderResultState(result);
+        
+        const minLoadingTime = new Promise(resolve => setTimeout(resolve, 2500));
+        
+        // 실제 데이터 요청 (실패 시 mock 데이터 사용하도록 예외처리 포함)
+        const analysisRequest = analyzeImage(currentImageFile)
+            .catch(error => {
+                console.error('❌ 분석 중 오류(서버):', error);
+                return mockAiAnalysis(currentImageSrc);
+            });
+
+        // Promise.all: "시간도 2.5초 지났고, 분석도 끝났을 때" 결과를 반환함
+        const [_, result] = await Promise.all([minLoadingTime, analysisRequest]);
+
+        // 3. 결과 화면 보여주기
+        // (화면 전환 직전, 혹시 모르니 프로그래스바를 100%로 강제 채움)
+        const bar = document.getElementById('progressBar');
+        if (bar) bar.style.width = '100%';
+
+        // 아주 잠깐(0.1초) 100% 상태를 보여준 뒤 결과 화면 출력 (자연스러움)
+        setTimeout(() => {
+            renderResultState(result);
+        }, 100);
+
     } catch (error) {
-        console.error('❌ 분석 중 오류:', error);
-        // 오류 발생 시 Mock 데이터 사용 (개발용)
+        console.error('❌ 알 수 없는 오류:', error);
+        // 최악의 경우에도 가짜 데이터로 결과 보여줌
         const mockResult = await mockAiAnalysis(currentImageSrc);
         renderResultState(mockResult);
     }
@@ -488,7 +483,6 @@ window.restartGame = restartGame;
 
 // 초기화
 document.addEventListener('DOMContentLoaded', async () => {
-    injectStyles();
 
     uploadCard = document.getElementById('uploadCard');
     fileInput = document.getElementById('fileInput');
