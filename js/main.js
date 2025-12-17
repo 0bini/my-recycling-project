@@ -334,7 +334,7 @@ function renderResultState(resultData) {
     else if (typeName.includes('캔')) iconPath = 'img/icon_can.png';
     else if (typeName.includes('종이')) iconPath = 'img/icon_paper.png';
     else if (typeName.includes('병')) iconPath = 'img/icon_glass.png';
-    else if (typeName.includes('일반')) iconPath = 'img/icon_trash.png';
+    else if (typeName.includes('일반 쓰레기')) iconPath = 'img/icon_trash.png';
     else if (typeName.includes('음식물')) iconPath = 'img/icon_food.png';
     else if (typeName.includes('비닐')) iconPath = 'img/icon_vinyl.png';
     else if (typeName.includes('스티로폼')) iconPath = 'img/icon_styrofoam.png';
@@ -379,36 +379,77 @@ function renderResultState(resultData) {
 function triggerFileUpload() { if (fileInput) fileInput.click(); }
 function handleFileSelect(e) { 
     const file = e.target.files[0];
-    if (file) {
-        if (!file.type.startsWith('image/')) {
-            alert('이미지 파일만 업로드할 수 있습니다.');
-            return;
-        }
-        currentImageFile = file;  // ← 파일 저장 (API 전송용)
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            currentImageSrc = e.target.result;
-            renderPreviewState(currentImageSrc);
-        }
-        reader.readAsDataURL(file);
+
+    if (!file) return;
+
+    // --- [추가] 1. 파일 크기 검사 (10MB) ---
+    const MAX_SIZE = 10 * 1024 * 1024; // 10MB
+    if (file.size > MAX_SIZE) {
+        alert(`❌ 파일 크기가 너무 큽니다! (10MB 이하만 가능)\n현재 크기: ${(file.size / 1024 / 1024).toFixed(2)}MB`);
+        e.target.value = ''; // 입력 초기화 (선택 취소)
+        return;
     }
+
+    // --- [추가] 2. 파일 형식 검사 (MIME Type) ---
+    // 백엔드 기준: ["image/jpeg", "image/png", "image/jpg", "image/webp"]
+    // (브라우저는 보통 .jpg도 'image/jpeg'로 인식하지만, 안전하게 목록에 다 넣었습니다)
+    const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
+    
+    if (!ALLOWED_TYPES.includes(file.type)) {
+        alert('❌ 지원하지 않는 파일 형식입니다.\n(JPG, PNG, WEBP 형식만 업로드 가능합니다)');
+        e.target.value = ''; // 입력 초기화
+        return;
+    }
+
+    // --- 3. 유효성 검사 통과 시 처리 ---
+    currentImageFile = file; // 파일 저장 (API 전송용)
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        currentImageSrc = e.target.result;
+        renderPreviewState(currentImageSrc); // 미리보기 화면으로 이동
+    }
+    reader.readAsDataURL(file);
+
+    // 입력값 초기화 (같은 파일을 다시 선택해도 이벤트가 발생하도록)
     e.target.value = ''; 
 }
 
 async function startAnalysis() { 
-    // 업로드된 파일이 없으면 리턴
+    // 1. 업로드된 파일이 없으면 리턴
     if (!currentImageFile) {
         alert('먼저 이미지를 업로드해주세요!');
         return;
     }
 
+    // 2. 로딩 화면 시작 (프로그래스바 애니메이션이 약 2.5초 동안 실행됨)
     renderLoadingState();
     
     try {
-        // 실제 백엔드 API 호출
-        const result = await analyzeImage(currentImageFile);
-        renderResultState(result);
+        
+        const minLoadingTime = new Promise(resolve => setTimeout(resolve, 2500));
+        
+        // 실제 데이터 요청 (실패 시 mock 데이터 사용하도록 예외처리 포함)
+        const analysisRequest = analyzeImage(currentImageFile)
+            .catch(error => {
+                console.error('❌ 분석 중 오류(서버):', error);
+                return mockAiAnalysis(currentImageSrc);
+            });
+
+        // Promise.all: "시간도 2.5초 지났고, 분석도 끝났을 때" 결과를 반환함
+        const [_, result] = await Promise.all([minLoadingTime, analysisRequest]);
+
+        // 3. 결과 화면 보여주기
+        // (화면 전환 직전, 혹시 모르니 프로그래스바를 100%로 강제 채움)
+        const bar = document.getElementById('progressBar');
+        if (bar) bar.style.width = '100%';
+
+        // 아주 잠깐(0.1초) 100% 상태를 보여준 뒤 결과 화면 출력 (자연스러움)
+        setTimeout(() => {
+            renderResultState(result);
+        }, 100);
+
     } catch (error) {
+
         console.error('❌ 분석 중 오류:', error);
         alert("죄송합니다. 서버 연결에 실패했습니다. \n 잠시 후 다시 시도해주세요.");
         renderResultState(mockResult);
