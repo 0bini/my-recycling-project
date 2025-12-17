@@ -2,7 +2,7 @@
 
 import { initMap } from './map/map.js';
 import { startGame, stopGame, RECYCLABLES } from './game.js';
-import { analyzeImage, testConnection } from './ai/api.js';  // ← AI API 추가
+import { analyzeImage } from './ai/api.js';  // ← AI API 추가
 
 // 전역 변수
 let uploadCard = null;
@@ -72,14 +72,14 @@ function renderGameState() {
             ${evolutionHTML}
         </div>
 
-        <div id="game-wrapper" style="width: 100%; height: 400px; background: #f0f2f5; border-radius: 16px; overflow: hidden; position: relative; touch-action: none;">
-            <div id="game-over-modal" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; justify-content: center; align-items: center; flex-direction: column; z-index: 20; border-radius: 16px;">
-                <div class="game-over-page", style="background: white; padding: 20px 25px; border-radius: 16px; text-align: center; width: 96%; height: 96%; margin: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.15); display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <div id="game-wrapper" style="width: 100%; height: 400px; ; border-radius: 16px; overflow: hidden; position: relative; touch-action: none;">
+            <div class="game-over-modal" id="game-over-modal">
+                <div class="game-over-page", style="background: white; padding: 20px 25px; border-radius: 16px; text-align: center; width: 96%; height: 96%; margin: auto; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                     <h2 style="margin: 0 0 5px 0; color: #ff4444; font-size: 24px;">GAME OVER</h2>
                     <p id="new-record-text" style="display: none; margin: 0 0 5px 0; font-size: 13px; color: #ffd700; font-weight: 800; animation: blink 1s infinite;">🎉 신기록 달성! 🎉</p>
-                    <p style="margin: 5px 0 3px 0; font-size: 12px; color: #888;">최종 점수</p>
-                    <h1 id="final-score-text" style="margin: 0 0 8px 0; font-size: 36px; color: #333;">0</h1>
-                    <div style="padding: 8px; border-radius: 10px; margin-bottom: 15px; width: 70%; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                    <p class="final-score-text" style="margin: 5px 0 3px 0; font-size: 12px; color: #888;">최종 점수</p>
+                    <h1 class="final-score" id="final-score" style="margin: 0 0 8px 0; font-size: 36px; color: #333;">0</h1>
+                    <div style="padding: 8px; border-radius: 10px; margin-bottom: 15px; width: 70%;">
                         <p style="margin: 0; font-size: 11px; color: #aaa;">최고 기록</p>
                         <p id="high-score-text" style="margin: 3px 0 0 0; font-size: 20px; font-weight: 700; color: #ffd700;">0</p>
                     </div>
@@ -116,7 +116,7 @@ function startNewGameLogic() {
 
 function showGameOverModal(score) {
     const modal = document.getElementById('game-over-modal');
-    const scoreText = document.getElementById('final-score-text');
+    const scoreText = document.getElementById('final-score');
     const highScoreText = document.getElementById('high-score-text');
     const newRecordText = document.getElementById('new-record-text');
     
@@ -359,10 +359,10 @@ function renderResultState(resultData) {
                 <img src="${iconPath}" style="width: 100%; height: 100%; object-fit: contain;">
             </div>
             <div style="flex-grow: 1; min-width: 0; text-align: center;">
-                <p style="font-size: 16px; color: #868e96; font-weight: 500;">이 쓰레기는</p>
+                <p class="result_text" style="font-size: 16px; color: black; font-weight: 700;">이 쓰레기는</p>
                 <h2 style="font-size: 32px; font-weight: 900; color: ${titleColor};">${typeName}</h2>
-                <p style="font-size: 16px; color: #868e96; margin-bottom: 15px; font-weight: 500;">입니다</p>
-                <div style="border-radius: 12px; font-size: 15px; line-height: 1.5; word-break: keep-all; text-align: center;">
+                <p class="result_text" style="font-size: 16px; color: black; margin-bottom: 15px; font-weight: 700;">입니다</p>
+                <div class="result_data" style="border-radius: 12px; font-size: 15px; line-height: 1.5; word-break: keep-all; text-align: center; color: #3D3D3D">
                     <span style="color: #fa5252; font-weight: 800;">❗ 잠깐</span><br>
                     ${resultData.tip}
                 </div>
@@ -410,28 +410,9 @@ async function startAnalysis() {
         renderResultState(result);
     } catch (error) {
         console.error('❌ 분석 중 오류:', error);
-        // 오류 발생 시 Mock 데이터 사용 (개발용)
-        const mockResult = await mockAiAnalysis(currentImageSrc);
+        alert("죄송합니다. 서버 연결에 실패했습니다. \n 잠시 후 다시 시도해주세요.");
         renderResultState(mockResult);
     }
-}
-
-function mockAiAnalysis(imageData) { 
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            const results = [
-                { type: "플라스틱", tip: "내용물을 비우고 라벨을 제거한 후 압축해서 버려주세요." },
-                { type: "캔/고철류", tip: "내용물을 비우고 헹군 뒤 찌그러뜨려 배출해주세요." },
-                { type: "비닐류", tip: "이물질을 씻어내고 흩날리지 않게 한곳에 모아 배출해주세요." },
-                { type: "음식물", tip: "물기를 꽉 짜고 뼈나 껍데기 등 딱딱한 것은 제외하고 배출해주세요." },
-                { type: "스티로폼", tip: "테이프와 운송장을 제거하고 흰색의 깨끗한 것만 모아 배출해주세요." },
-                { type: "종이류", tip: "테이프 등 이물질을 제거하고 펴서 배출해주세요." },
-                { type: "병류", tip: "내용물은 비우고 뚜껑을 분리해 배출해주세요." },
-                { type: "일반쓰레기", tip: "재활용품과 음식물을 제외하고 종량제 봉투에 담아 묶어서 배출해주세요." }
-            ];
-            resolve(results[Math.floor(Math.random() * results.length)]);
-        }, 3000); 
-    });
 }
 
 // 전역 함수 노출
@@ -452,12 +433,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log("🗺️ Map 모듈 초기화...");
     initMap();
 
-    // 백엔드 서버 연결 테스트
-    console.log("🔌 백엔드 서버 연결 테스트 중...");
-    const isConnected = await testConnection();
-    if (isConnected) {
-        console.log("✅ 백엔드 서버와 연결되었습니다!");
-    } else {
-        console.warn("⚠️ 백엔드 서버에 연결할 수 없습니다. Mock 데이터를 사용합니다.");
-    }
 });
