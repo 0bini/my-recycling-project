@@ -41,6 +41,8 @@ export async function analyzeImage(imageFile) {
             'Paper': '종이류',
             'Vinyl': '비닐류',
             'Styrofoam': '스티로폼',
+            'General': '일반 쓰레기',
+            'Food': '음식물',
         };
 
         const category = categoryMap[result.category] || result.category;
