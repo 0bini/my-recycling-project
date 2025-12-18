@@ -88,7 +88,7 @@ body {
 }
 
 /* 2. 업로드 섹션 스타일 */
-/* ★ 중요: 높이 통일을 위해 height를 고정하고 스크롤을 숨깁니다 */
+/*높이 통일, 스크롤을 숨기기 */
 .upload-section {
     height: 500px !important; 
     min-height: 500px !important;
@@ -327,7 +327,7 @@ body {
 .tag-gray { background: var(--tag-gray); color: var(--tag-gray-text); }
 .tag-teal { background: var(--tag-teal); color: var(--tag-teal-text); }
 
-/* --- [필수 추가] 로딩 애니메이션 및 결과 화면 (두 번째 CSS에 없던 부분 복구) --- */
+/* 로딩 애니메이션 및 결과 화면  */
 .loading-container {
     text-align: center;
     padding: 20px 0;
@@ -388,7 +388,7 @@ body {
     width: 100%;
 }
 
-/* --- [필수 추가] 재활용품 안내 모달 (게임/결과 화면용) --- */
+/* 재활용품 안내 모달 (게임/결과 화면용) */
 .modal {
     display: none;
     position: absolute;
@@ -531,7 +531,7 @@ body {
     font-weight: 600;
 }
 
-/* --- [필수 추가] 애니메이션 (Keyframes) --- */
+/* --- 애니메이션 (Keyframes) --- */
 @keyframes bounce {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-15px); }
@@ -655,4 +655,30 @@ body {
     #game-wrapper {
         background-color: #37383A !important;
     }
+}
+
+.modal.center {
+    align-items: center; /* 수직 중앙 정렬 */
+    margin-bottom: 0;    /* 하단 여백 제거 */
+}
+
+/* 줄바꿈(\n)이 적용되도록 설정 */
+#alert-msg {
+    white-space: pre-line; 
+}
+
+/* --- 버튼 호버 효과 --- */
+
+/* 1. 버튼에 부드러운 애니메이션 추가 */
+.white-btn {
+    transition: all 0.3s ease; 
+}
+
+/* 2. 마우스를 올렸을 때(hover) 스타일 변경 */
+.white-btn:hover {
+    background-color: #5c7cfa; 
+    color: white;              
+    border-color: #5c7cfa;     
+    transform: translateY(-2px); 
+    box-shadow: 0 4px 12px rgba(92, 124, 250, 0.3); 
 }

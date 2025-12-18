@@ -1,6 +1,5 @@
 /**
  * api.js - 백엔드 API 통신 (클린하우스 데이터)
- * 개발자 B 작업 공간 (당신의 영역)
  */
 
 // CSV 경로 및 캐시 설정
@@ -107,53 +106,6 @@ function calculateDistance(lat1, lng1, lat2, lng2) {
         Math.sin(dLng / 2) * Math.sin(dLng / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
-}
-
-
-/**
- * 히스토리 저장 (로컬스토리지)
- * @param {Object} record - 저장할 기록
- */
-export function saveHistory(record) {
-    try {
-        const history = JSON.parse(localStorage.getItem('recycling-history') || '[]');
-        
-        // 새 기록 추가
-        history.unshift({
-            ...record,
-            id: Date.now(),
-            timestamp: new Date().toISOString()
-        });
-
-        // 최대 50개만 저장
-        if (history.length > 50) {
-            history.pop();
-        }
-
-        localStorage.setItem('recycling-history', JSON.stringify(history));
-        console.log('✅ 히스토리 저장 완료');
-        
-        return true;
-
-    } catch (error) {
-        console.error('❌ 히스토리 저장 실패:', error);
-        return false;
-    }
-}
-
-/**
- * 히스토리 목록 가져오기 (로컬스토리지)
- */
-export function getHistory() {
-    try {
-        const history = JSON.parse(localStorage.getItem('recycling-history') || '[]');
-        console.log(`📜 히스토리 ${history.length}개 로드됨`);
-        return history;
-
-    } catch (error) {
-        console.error('❌ 히스토리 로드 실패:', error);
-        return [];
-    }
 }
 
 /**

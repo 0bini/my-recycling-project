@@ -1,6 +1,5 @@
 /**
  * map.js - 카카오맵 및 클린하우스 관리
- * 개발자 B 작업 공간 (당신의 영역)
  */
 
 import { getNearbyCleanHouses } from './api.js';
@@ -265,31 +264,7 @@ function updateCleanHouseInfo(house) {
 /**
  * 특정 쓰레기 타입으로 필터링 (A가 분석 완료 시 호출)
  * @param {string} wasteType - 쓰레기 종류 (PET, CAN 등)
- */
-export function filterCleanHouses(wasteType) {
-    console.log(`🔍 [Map] ${wasteType} 배출 가능한 클린하우스 필터링`);
-
-    // 오늘 요일에 배출 가능한 품목 확인
-    const todayTypes = getTodayAvailableTypes();
-    
-    if (!todayTypes.includes(wasteType)) {
-        alert(`⚠️ 오늘은 ${getTypeLabel(wasteType)}를 배출할 수 없는 날입니다.\n오늘 배출 가능: ${todayTypes.map(t => getTypeLabel(t)).join(', ')}`);
-        return;
-    }
-
-    // 모든 클린하우스가 오늘 배출 가능하므로 필터링 불필요
-    // 가까운 5개만 표시
-    const nearbyHouses = allCleanHouses
-        .sort((a, b) => a.distance - b.distance)
-        .slice(0, 5);
-
-    displayCleanHouses(nearbyHouses);
-
-    if (nearbyHouses.length > 0) {
-        updateCleanHouseInfo(nearbyHouses[0]);
-    }
-}
-
+ 
 /**
  * 지도 로드 에러 표시
  */
