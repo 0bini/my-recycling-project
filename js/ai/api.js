@@ -4,7 +4,7 @@
 
 // ⚙️ 백엔드 서버 주소
 // B 방식(친구 PC 백엔드 사용): 친구 PC의 로컬 IP로 설정하세요.
-const API_BASE_URL = 'http://172.20.13.59:8000';
+const API_BASE_URL = 'https://waste-api-6xd9.onrender.com';
 console.log('🔥🔥🔥 [API.JS 로드됨!] 백엔드 주소:', API_BASE_URL, '🔥🔥🔥');
 
 /**
