@@ -2,13 +2,13 @@
 
 import { initMap } from './map/map.js';
 import { startGame, stopGame, RECYCLABLES } from './game.js';
-import { analyzeImage } from './ai/api.js';  // ← AI API 추가
+import { analyzeImage } from './ai/api.js';  // AI API 추가
 
 // 전역 변수
 let uploadCard = null;
 let fileInput = null;
 let currentImageSrc = null;
-let currentImageFile = null;  // ← 업로드된 파일 저장용
+let currentImageFile = null;  // 업로드된 파일 저장용
 
 // --- 1. 초기 상태 ---
 function renderInitialState() {
@@ -377,40 +377,34 @@ function renderResultState(resultData) {
 
 // --- 공통 기능 ---
 function triggerFileUpload() { if (fileInput) fileInput.click(); }
-function handleFileSelect(e) { 
+function handleFileSelect(e) {
     const file = e.target.files[0];
-
     if (!file) return;
 
-    // --- [추가] 1. 파일 크기 검사 (10MB) ---
-    const MAX_SIZE = 10 * 1024 * 1024; // 10MB
+    // 1. 파일 크기 검사 (10MB)
+    const MAX_SIZE = 10 * 1024 * 1024;
     if (file.size > MAX_SIZE) {
-        alert(`❌ 파일 크기가 너무 큽니다! (10MB 이하만 가능)\n현재 크기: ${(file.size / 1024 / 1024).toFixed(2)}MB`);
-        e.target.value = ''; // 입력 초기화 (선택 취소)
+        showAlert(`파일 크기가 너무 큽니다!\n(10MB 이하만 가능합니다)\n현재 크기: ${(file.size / 1024 / 1024).toFixed(2)}MB`);
+        e.target.value = '';
         return;
     }
 
-    // --- [추가] 2. 파일 형식 검사 (MIME Type) ---
-    // 백엔드 기준: ["image/jpeg", "image/png", "image/jpg", "image/webp"]
-    // (브라우저는 보통 .jpg도 'image/jpeg'로 인식하지만, 안전하게 목록에 다 넣었습니다)
+    // 2. 확장자 검사
     const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
-    
     if (!ALLOWED_TYPES.includes(file.type)) {
-        alert('❌ 지원하지 않는 파일 형식입니다.\n(JPG, PNG, WEBP 형식만 업로드 가능합니다)');
-        e.target.value = ''; // 입력 초기화
+        showAlert('지원하지 않는 파일 형식입니다.\nJPG, PNG, WEBP 파일만 업로드해주세요.');
+        e.target.value = '';
         return;
     }
 
-    // --- 3. 유효성 검사 통과 시 처리 ---
-    currentImageFile = file; // 파일 저장 (API 전송용)
+    // 통과 시 처리
+    currentImageFile = file;
     const reader = new FileReader();
     reader.onload = function(e) {
         currentImageSrc = e.target.result;
-        renderPreviewState(currentImageSrc); // 미리보기 화면으로 이동
+        renderPreviewState(currentImageSrc);
     }
     reader.readAsDataURL(file);
-
-    // 입력값 초기화 (같은 파일을 다시 선택해도 이벤트가 발생하도록)
     e.target.value = ''; 
 }
 
@@ -421,7 +415,7 @@ async function startAnalysis() {
         return;
     }
 
-    // 2. 로딩 화면 시작 (프로그래스바 애니메이션이 약 2.5초 동안 실행됨)
+    // 2. 로딩 화면 시작 (프로그래스바 애니메이션이 약 2.5초)
     renderLoadingState();
     
     try {
@@ -435,15 +429,14 @@ async function startAnalysis() {
                 return mockAiAnalysis(currentImageSrc);
             });
 
-        // Promise.all: "시간도 2.5초 지났고, 분석도 끝났을 때" 결과를 반환함
+        // Promise.all-> "시간도 2.5초 지났고, 분석도 끝났을 때" 결과를 반환
         const [_, result] = await Promise.all([minLoadingTime, analysisRequest]);
 
         // 3. 결과 화면 보여주기
-        // (화면 전환 직전, 혹시 모르니 프로그래스바를 100%로 강제 채움)
         const bar = document.getElementById('progressBar');
         if (bar) bar.style.width = '100%';
 
-        // 아주 잠깐(0.1초) 100% 상태를 보여준 뒤 결과 화면 출력 (자연스러움)
+        //0.1초 100% 상태를 보여준 뒤 결과 화면 출력 
         setTimeout(() => {
             renderResultState(result);
         }, 100);
@@ -462,6 +455,28 @@ window.renderInitialState = renderInitialState;
 window.renderGameState = renderGameState;
 window.startAnalysis = startAnalysis;
 window.restartGame = restartGame;
+
+//  커스텀 알림창 함수 
+function showAlert(message) {
+    const modal = document.getElementById('alert-modal');
+    const msgEl = document.getElementById('alert-msg');
+    
+    if (modal && msgEl) {
+        msgEl.innerText = message; // 메시지 넣기
+        modal.classList.add('show');   // 모달 보이기
+        modal.classList.add('center'); // 중앙 정렬 스타일 추가
+    }
+}
+
+function closeAlert() {
+    const modal = document.getElementById('alert-modal');
+    if (modal) {
+        modal.classList.remove('show');
+    }
+}
+
+// HTML(버튼)에서 클릭할 수 있도록 전역에 등록
+window.closeAlert = closeAlert;
 
 // 초기화
 document.addEventListener('DOMContentLoaded', async () => {

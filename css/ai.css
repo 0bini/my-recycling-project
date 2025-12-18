@@ -90,7 +90,7 @@
 }
 
 .btn-blue {
-    background: #5c7cfa; /* 디자인 속 파란색 */
+    background: #5c7cfa; 
     color: white;
-    display: inline-block; /* label 태그라서 필요 */
+    display: inline-block; 
 }

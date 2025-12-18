@@ -27,7 +27,7 @@
 
         <input type="file" id="fileInput" accept="image/*" style="display: none;">
 
-        <!-- [필수 추가] id="uploadCard" 추가 (자바스크립트가 화면을 그릴 위치) -->
+        <!-- id="uploadCard" 추가 (자바스크립트가 화면을 그릴 위치) -->
         <div class="card upload-section" id="uploadCard">
             <!-- 자바스크립트 로딩 전 잠깐 보이는 화면 -->
             <div style="text-align:center; padding:50px; color:#888;">
@@ -107,6 +107,20 @@
                     <p>매일 배출 가능</p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="alert-modal" class="modal">
+        <div class="modal-content" style="text-align: center; padding: 10px 20px; width: 90%; max-width: 350px; transform: translateY(-5%);">
+            <div style="font-size: 30px; margin-bottom: 10px;">⚠️</div>
+            
+            <p id="alert-msg" style="font-size: 16px; color: #333; line-height: 1.5; margin-bottom: 20px; font-weight: 500;">
+                알림 내용이 여기에 뜹니다.
+            </p>
+            
+            <button onclick="closeAlert()" class="white-btn" style="width: 100%; padding: 12px; border-radius: 50px; font-size: 15px; font-weight: bold;">
+                확인
+            </button>
         </div>
     </div>
 
