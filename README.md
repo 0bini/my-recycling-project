@@ -17,9 +17,9 @@
 | 이름 (Name) | 포지션 (Position) | 역할 (Role) | GitHub |
 | :---: | :---: | :--- | :---: |
 | **백소현** | 👑 PM / Design | 기획 총괄, UI/UX 디자인, 와이어프레임(Figma) | [@baeksohyun12](https://github.com/baeksohyun12) |
-| **강영빈** | 💻 Frontend | 프론트엔드 개발, UI 구현 및 인터랙션 | [@0bini](https://github.com/0bini) |
-| **고지운** | 💻 Frontend | 프론트엔드 개발, 기능 연동 및 최적화 | [@suerte223](https://github.com/suerte223) |
-| **양문준** | 🛠️ Backend | 백엔드 개발, API 설계 및 서버 구축(FastAPI) | [@munjun0603](https://github.com/munjun0603) |
+| **강영빈** | 💻 Frontend | 프론트엔드 개발, 기능 연동 및 최적화 | [@0bini](https://github.com/0bini) |
+| **고지운** | 💻 Frontend | 프론트엔드 개발, UI 구현 및 인터랙션  | [@suerte223](https://github.com/suerte223) |
+| **양문준** | 🛠️ Backend | 백엔드 개발, API 설계 및 서버 구축(FastAPI) | [@munjun0604](https://github.com/munjun0604) |
 ---
 
 ## 기술 스택 (Tech Stack)
@@ -50,17 +50,26 @@
 
 ## 주요 기능
 ### 1. AI 기반 분리수거 가이드
-* **이미지 인식 및 자동 분류**: 사용자가 쓰레기 사진을 업로드 하면 AI가 이미지를 분석하여 품목을 식별하고 결과 화면으로 이동하여 올바른 분리 배출 방법을 안내
-* **3D 지구 로딩 애니메이션**: AI 분석이 진행되는 동안 회전하는 지구 애니메이션을 시각적으로 구현하여 시작적 즐거움을 제공하고, 동시에 환경 보호 관련 명언을 랜덤으로 노출하여 대기 시간을 의미있게 만듦
+* **이미지 인식 및 자동 분류**: 사용자가 쓰레기 사진을 업로드 하면 AI가 이미지를 분석하여 품목을 식별하고 결과 화면으로 이동하여 올바른 분리 배출 방법을 안내했습니다.
+* **3D 지구 로딩 애니메이션**: AI 분석이 진행되는 동안 회전하는 지구 애니메이션을 시각적으로 구현하여 시작적 즐거움을 제공하고, 동시에 환경 보호 관련 명언을 랜덤으로 노출하여 대기 시간을 의미있게 만들었습니다.
 
 ### 2. 분리수거 미니 게임
-* **물리 엔진 적용**: '수박 게임'의 매커니즘을 모티브로 하여 쓰레기 아이콘이 떨어지고 쌓이는 움직임을 물리 엔진으로 정교하게 구현
-* **게임 방식**: 떨어지는 쓰레기 아이콘이 쌓여가는 방식으로, 단순히 싸는 것이 아닌 같은 종류의 재활용 쓰레기가 충돌하면 더 큰 쓰레기로 합쳐지는 구조
-* **스코어링 시스템**: 로컬 스토리지를 활용하여 최고 점수를 기록하고 보여줌으로써 사용자의 재도전 의욕을 고취
+* **물리 엔진 적용**: '수박 게임'의 매커니즘을 모티브로 하여 쓰레기 아이콘이 떨어지고 쌓이는 움직임을 물리 엔진으로 정교하게 구현했습니다.
+* **게임 방식**: 떨어지는 쓰레기 아이콘이 쌓여가는 방식으로, 단순히 싸는 것이 아닌 같은 종류의 재활용 쓰레기가 충돌하면 더 큰 쓰레기로 합쳐지는 구조로 만들었습니다.
+* **스코어링 시스템**: 로컬 스토리지를 활용하여 최고 점수를 기록하고 보여줌으로써 사용자의 재도전 의욕을 고취했습니다.
 
 ### 3. 다크모드
 * **시각적 편의성 제공**: 야간이나 어두운 환경에서도 눈의 피로 없이 서비스를 이용할 수 있도록 다크 모드/라이트 모드 기능 지원합니다.
-* **사용자 설정 유지**: 로컬 스토리지를 활용하여 사용자가 선택한 태마를 브라우저에 저장하고 재접속 시에도 선호하는 테마가 자동으로 적용되도록 구현
+* **사용자 설정 유지**: 로컬 스토리지를 활용하여 사용자가 선택한 태마를 브라우저에 저장하고 재접속 시에도 선호하는 테마가 자동으로 적용되도록 구현했습니다.
+
+### 4. 위치 기반 클린하우스 안내
+* **초정밀 위치 보정 시스템**: GPS 신호가 불안정한 실내/도심 환경을 고려하여 위치 정보를 다중 샘플링하고, 오차 범위가 가장 적은 좌표를 선별하여 정확한 현재 위치를 제공했습니다.
+* **스마트 데이터 캐싱**: 대용량 CSV 데이터 요청 시 독자적인 캐싱 시스템(TTL)을 적용하여, 불필요한 서버 트래픽을 차단하고 지도 로딩 속도를 획기적으로 개선했습니다.
+
+### 5. REST API 연동 및 성능 최적화
+* **비동기 서버 통신 및 예외 처리**: Fetch API를 활용해 대용량 이미지 데이터를 비동기로 전송하고, 서버 장애 시 Mock Data로 자동 전환되는 'Fail-over' 로직을 구축하여 무중단 서비스를 구현했습니다.
+* **리소스 최적화 및 데이터 영속성**: 이미지 전송 전 유효성 검사를 수행하여 트래픽을 절감하고, Local Storage를 활용해 서버 DB 없이도 사용자 데이터가 영구 보존되도록 구현했습니다.
+
 ---
 
 ## 실행 화면
@@ -82,6 +91,13 @@
 | 게임 플레이 (Play) | 게임 점수/랭킹 (Score) |
 | :---: | :---: |
 | <img src="./img/game.png" width="300" /> | <img src="./img/score.png" width="300" /> |
+
+### 3. 위치 기반 수거장 안내 및 배출 가이드
+사용자의 현위치를 기반으로 가장 가까운 클린하우스를 지도에 표시하고, 요일별 분리배출 규정을 모달 팝업으로 직관적으로 제공합니다.
+
+| 실시간 지도 안내 (Map) | 요일별 배출 가이드 (Guide) |
+| :---: | :---: |
+| <img src="./img/map.png" width="300" /> | <img src="./img/modal.png" width="300" /> |
 
 ## 핵심 코드
 
@@ -201,6 +217,99 @@ Matter.Events.on(engine, 'collisionStart', (event) => {
         }
     });
 });
+```
+</details>
+
+### 위치 정보 정확도 보정 알고리즘
+실내나 도심에서 GPS 신호가 튀는 현상을 방지하기 위해 단발성 측정이 아닌 다중 샘플링 기법을 도입했습니다.<br>
+'navigator.geolocation'을 반복 호출하여 위치 데이터를 수집하고, 그중 정확도 오차가 가장 적은 좌표를 최종 위치로 채택하여 신뢰성을 높였습니다.
+
+<details>
+<summary>코드 보기</summary>
+
+```javascript
+function getUserLocation() {
+    if (navigator.geolocation) {
+        let positions = [];
+        let attempts = 0;
+        const maxAttempts = 3;
+        
+        const getPosition = () => {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    positions.push({
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                        accuracy: position.coords.accuracy
+                    });
+                    
+                    attempts++;
+                    
+                    console.log(`📍 위치 측정 ${attempts}/${maxAttempts}:`, {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                        accuracy: Math.round(position.coords.accuracy) + 'm'
+                    });
+                    
+                    // 여러 번 측정해서 평균 내기 (건물 안에서 정확도 향상)
+                    if (attempts < maxAttempts) {
+                        setTimeout(getPosition, 1000); // 1초 후 다시 측정
+                    } else {
+                        // 가장 정확한 위치 선택 (accuracy가 낮을수록 정확함)
+                        const bestPosition = positions.reduce((best, current) => 
+                            current.accuracy < best.accuracy ? current : best
+                        );
+                    }
+                }
+            );
+            }
+        };
+    }
+```
+</details>
+
+### 데이터 캐싱 시스템
+매번 대용량의 클린하우스 데이터를 요청하고 파싱하는 과정에서 발생하는 네트워크 트래픽 낭비와 렌더링 지연을 방지하기 위해 TTL기반의 메모리 캐싱 기법을 도입했습니다.<br>
+최초 요청 시 데이터를 메모리에 저장하여 5분간 재사용하도록 구현하고, 유효 시간 내에는 불필요한 네트워크 요청 자체를 차단하여 지도 로딩 속도를 최적화했습니다.
+
+<details>
+<summary>코드 보기</summary>
+
+```javascript
+// CSV 경로 및 캐시 설정
+const CSV_URL = 'data/jeju_cleanhouse.csv';
+let cachedResults = null;
+let cachedTimestamp = 0;
+const CACHE_TTL = 5 * 60 * 1000; // 5분
+
+// 모든 클린하우스 동일한 운영 시간
+const DEFAULT_OPERATING_HOURS = '15:00 - 04:00';
+
+/**
+ * 주변 클린하우스 정보 가져오기 (카카오맵 장소 검색 사용)
+ * @param {number} lat - 위도
+ * @param {number} lng - 경도
+ * @param {number} radius - 반경 (미터, 기본 5000m)
+ * @returns {Promise<Array>} 클린하우스 목록
+ */
+export async function getNearbyCleanHouses(lat, lng, radius = 5000) {
+    // 캐시가 유효하면 캐시 사용
+    const now = Date.now();
+    if (cachedResults && (now - cachedTimestamp) < CACHE_TTL) {
+        console.log('🗂️ 캐시된 클린하우스 결과 사용');
+        return takeNearest(cachedResults, lat, lng, radius);
+    }
+
+    try {
+        const csvData = await loadCsvCleanHouses();
+        cachedResults = csvData;
+        cachedTimestamp = Date.now();
+        return takeNearest(csvData, lat, lng, radius);
+    } catch (error) {
+        console.error('❌ 클린하우스 데이터 로드 실패:', error.message);
+        return [];
+    }
+}
 ```
 </details>
 

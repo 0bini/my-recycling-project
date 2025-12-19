@@ -106,7 +106,7 @@ function loadKakaoMap() {
         if (kakaoLoadRetryCount > 5) {
             console.error('❌ Kakao Map API 로드 실패 (5회 재시도 초과)');
             console.error('💡 Kakao Developers에서 도메인 설정을 확인해주세요:');
-            console.error('   플랫폼 > Web > 사이트 도메인: http://127.0.0.1:5500');
+            console.error('   플랫폼 > Web > 사이트 도메인');
             showMapError();
             return;
         }
