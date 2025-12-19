@@ -12,11 +12,14 @@
 ### 개발 기간
 * 2025.11.07 ~ 2025.12.20(약 6주)
 
-### 개발자 소개
-* **백소현**: 기획자, 디자인
-* **강영빈**: FrontEnd 개발자
-* **고지운**: FrontEnd 개발자
-* **양문준**: BackEnd 개발자
+## 팀원 소개 
+
+| 이름 (Name) | 포지션 (Position) | 역할 (Role) | GitHub |
+| :---: | :---: | :--- | :---: |
+| **백소현** | 👑 PM / Design | 기획 총괄, UI/UX 디자인, 와이어프레임(Figma) | [@baeksohyun12](https://github.com/baeksohyun12) |
+| **강영빈** | 💻 Frontend | 프론트엔드 개발, UI 구현 및 인터랙션 | [@0bini](https://github.com/0bini) |
+| **고지운** | 💻 Frontend | 프론트엔드 개발, 기능 연동 및 최적화 | [@suerte223](https://github.com/suerte223) |
+| **양문준** | 🛠️ Backend | 백엔드 개발, API 설계 및 서버 구축(FastAPI) | [@munjun0603](https://github.com/munjun0603) |
 ---
 
 ## 기술 스택 (Tech Stack)
@@ -127,7 +130,7 @@ function handleFileSelect(e) {
 
 
 ### 3D 지구 로딩 애니메이션
-AI 분석 대기 시간 동안 사용자 이탈을 막기 위해 **Three.js(WebGL)**을 활용한 인터랙티브 로딩 화면을 구현했습니다.<br>
+AI 분석 대기 시간 동안 사용자 이탈을 막기 위해 **Three.js(WebGL)** 을 활용한 인터랙티브 로딩 화면을 구현했습니다.<br>
 `ShpereGeometry`에 지구 텍스ㅓ를 매핑하고, `requestAnimationFrame`을 통해 매 프레임마다 Y축으로 회전시켜 3D 공간감을 연출했습니다. 
 
 <details>
