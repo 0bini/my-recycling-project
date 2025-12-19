@@ -147,7 +147,7 @@ function handleFileSelect(e) {
 
 ### 3D 지구 로딩 애니메이션
 AI 분석 대기 시간 동안 사용자 이탈을 막기 위해 **Three.js(WebGL)** 을 활용한 인터랙티브 로딩 화면을 구현했습니다.<br>
-`ShpereGeometry`에 지구 텍스ㅓ를 매핑하고, `requestAnimationFrame`을 통해 매 프레임마다 Y축으로 회전시켜 3D 공간감을 연출했습니다. 
+`ShpereGeometry`에 지구 텍스처를 매핑하고, `requestAnimationFrame`을 통해 매 프레임마다 Y축으로 회전시켜 3D 공간감을 연출했습니다. 
 
 <details>
 <summary>코드 보기</summary>
