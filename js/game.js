@@ -17,7 +17,7 @@ let currentScore = 0;
 let nextItemIndex = 0;
 let canDrop = true;
 
-const TOP_LINE_Y = 50; // 선 위치를 50에서 150으로 조정 (너무 높으면 생성되자마자 죽음)
+const TOP_LINE_Y = 50; 
 let currentBody = null;
 
 // 게임 설정 (이미지 경로 및 물리 크기)
