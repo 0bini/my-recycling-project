@@ -19,7 +19,7 @@
 | **백소현** | 👑 PM / Design | 기획 총괄, UI/UX 디자인, 와이어프레임(Figma) | [@baeksohyun12](https://github.com/baeksohyun12) |
 | **강영빈** | 💻 Frontend | 프론트엔드 개발, 기능 연동 및 최적화 | [@0bini](https://github.com/0bini) |
 | **고지운** | 💻 Frontend | 프론트엔드 개발, UI 구현 및 인터랙션  | [@suerte223](https://github.com/suerte223) |
-| **양문준** | 🛠️ Backend | 백엔드 개발, API 설계 및 서버 구축(FastAPI) | [@munjun0604](https://github.com/munjun0604) |
+| **양문준** | 🛠️ Backend | 백엔드 개발, API 설계 및 서버 구축(FastAPI) | [@munjun0608](https://github.com/munjun0608) |
 ---
 
 ## 기술 스택 (Tech Stack)
