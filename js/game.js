@@ -1,13 +1,13 @@
 // js/game.js
 
-// 1. Matter.js 모듈 별칭 (Body 추가됨)
+// 1. Matter.js 모듈 별칭 (Body 추가)
 const Engine = Matter.Engine,
       Render = Matter.Render,
       Runner = Matter.Runner,
       Bodies = Matter.Bodies,
       Composite = Matter.Composite,
       Events = Matter.Events,
-      Body = Matter.Body; // ★ [수정] 이게 있어야 타원 모양 변경이 가능합니다.
+      Body = Matter.Body; // 타원 모양 변경
 
 // 전역 변수 (게임 제어용)
 let engine = null;
@@ -176,7 +176,7 @@ function handleInput(event, width, nextImgEl) {
     
     const clampX = Math.max(30, Math.min(width - 30, x));
 
-    // ★ [수정] 반환된 body를 currentBody에 저장해야 안 죽습니다.
+    // 반환된 body를 currentBody에 저장해야 안 죽음.
     currentBody = createNewItem(clampX, 50, nextItemIndex);
 
     canDrop = false;
@@ -203,14 +203,14 @@ function createNewItem(x, y, index) {
         }
     });
 
-    // ★ [수정] body.scale -> Body.scale로 수정 (Body 모듈 필요)
+    // body.scale -> Body.scale로 수정 (Body 모듈 필요)
     if(item.ovalScale){
         Body.scale(body, item.ovalScale.x, item.ovalScale.y);
     }
     
     Composite.add(engine.world, body);
 
-    return body; // ★ [수정] body를 반환해야 handleInput에서 받습니다.
+    return body; // body를 반환해야 handleInput에서 받음.
 }
 
 function setNextItem(imgElement) {
