@@ -1,12 +1,25 @@
-# 버릴까 말까 - AI 탐지 기반 쓰레기 분리수거 시스템
+# 버릴까 말까 - AI를 이용한 분리수거 도우미 서비스
 
-## 프론트앤드 배포 주소
-**[버릴까 말까](https://0bini.github.io/my-recycling-project/main.html)**
+## 목차
 
----
+1. [프로젝트 소개](#프로젝트-소개)
+2. [팀원 소개](#팀원-소개)
+3. [기술 스택](#기술-스택)
+4. [협업 및 기획](#협업-및-기획)
+5. [주요 기능](#주요-기능)
+   - [AI 기반 분리수거 가이드](#1-ai-기반-분리수거-가이드)
+   - [분리수거 미니 게임](#2-분리수거-미니-게임)
+   - [위치 기반 클린하우스 안내](#4-위치-기반-클린하우스-안내)
+6. [실행 화면](#실행-화면)
+7. [핵심 코드](#핵심-코드)
+   - [이미지 유효성 검사](#이미지-유효성-검사-및-프리뷰)
+   - [3D 지구 로딩 애니메이션](#3d-지구-로딩-애니메이션)
+   - [데이터 캐싱 시스템](#데이터-캐싱-시스템)
+8. [프로젝트 구조](#프로젝트-구조)
+9. [설치 및 실행 방법](#설치-및-실행-방법)
 
 ## 프로젝트 소개
-사람들이 헷갈려 하는 분리수거 방법을 쉽고 재미있게 배울 수 있도록 돕는 웹 애플리케이션입니다. <br>
+사람들이 일상생활에서 헷갈려 하는 분리수거 방법을 쉽고 재미있게 배울 수 있도록 돕는 웹 애플리케이션입니다. <br>
 이는 단순한 정보 제공을 넘어, 환경 인식을 높이고 사용자 행동 변화를 이끌어내는 것을 목표로 하였으며 미니 게임을 통해 사용자가 자연스럽게 학습할 수 있도록 유도합니다.
 
 ### 개발 기간
@@ -22,7 +35,7 @@
 | **양문준** | 🛠️ Backend | 백엔드 개발, API 설계 및 서버 구축(FastAPI) | [@munjun0608](https://github.com/munjun0608) |
 ---
 
-## 기술 스택 (Tech Stack)
+## 기술 스택
 
 ### Frontend
 <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/css3-1572B6?style=for-the-badge&logo=css3&logoColor=white">
@@ -49,6 +62,7 @@
 ---
 
 ## 주요 기능
+
 ### 1. AI 기반 분리수거 가이드
 * **이미지 인식 및 자동 분류**: 사용자가 쓰레기 사진을 업로드 하면 AI가 이미지를 분석하여 품목을 식별하고 결과 화면으로 이동하여 올바른 분리 배출 방법을 안내했습니다.
 * **3D 지구 로딩 애니메이션**: AI 분석이 진행되는 동안 회전하는 지구 애니메이션을 시각적으로 구현하여 시작적 즐거움을 제공하고, 동시에 환경 보호 관련 명언을 랜덤으로 노출하여 대기 시간을 의미있게 만들었습니다.
@@ -99,6 +113,13 @@
 | :---: | :---: |
 | <img src="./img/map.png" width="300" /> | <img src="./img/modal.png" width="300" /> |
 
+### 4. 포맷 예외 처리
+시스템 오류를 방지하기 위해, 클라이언트 측에서 허용되지 않는 파일 형식에 대한 예외 처리를 구현했습니다.
+
+| 포맷 제한 및 안내 (Guide) |
+| :---: |
+| <img src="./img/error.png" width="300" /> |
+
 ## 핵심 코드
 
 ### 이미지 유효성 검사 및 프리뷰
@@ -109,7 +130,6 @@
 <summary>코드 보기</summary>
 
 ```javascript
-// --- 공통 기능 ---
 function triggerFileUpload() { if (fileInput) fileInput.click(); }
 function handleFileSelect(e) {
     const file = e.target.files[0];
